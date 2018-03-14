@@ -43,7 +43,11 @@
 						<li><a href="rendezvous/user/list.do"><spring:message
 							code="master.page.user.rendezvousList" /></a></li>
 					</security:authorize>
-					
+					<security:authorize access="hasRole('ADMIN')">
+						<li><a href="administrator/dashboard.do"><spring:message
+									code="master.page.dashboard" /></a></li>
+					</security:authorize>
+				
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
 					

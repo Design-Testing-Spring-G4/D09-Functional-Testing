@@ -28,6 +28,9 @@ public class CommentService {
 	@Autowired
 	private ActorService		actorService;
 
+	@Autowired
+	private UserService			userService;
+
 
 	public Comment create() {
 		final Comment c = new Comment();

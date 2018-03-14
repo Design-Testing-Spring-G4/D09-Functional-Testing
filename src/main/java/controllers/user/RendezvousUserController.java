@@ -102,7 +102,7 @@ public class RendezvousUserController extends AbstractController {
 		else
 			try {
 				this.rendezvousService.save(rendezvous);
-				result = new ModelAndView("redirect:/rendezvous/user/list.do");
+				result = new ModelAndView("redirect:/rendezvous/list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(rendezvous, "rendezvous.commit.error");
 			}

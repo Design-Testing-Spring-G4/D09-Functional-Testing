@@ -47,49 +47,48 @@
 		</tr>
 		<tr>
 			<td><jstl:out value="${queryc1}" /></td>
-			<td><jstl:out value="${Nombre query1}" /></td>
+			<td><jstl:out value="${avgStddevRendezvousPerUser}" /></td>
 		</tr>
 		<tr>
 			<td><jstl:out value="${queryc2}" /></td>
-			<td><jstl:out value="${Nombre query2}" /></td>
+			<td><jstl:out value="${ratioRendezvousVsNotRendezvous}" /></td>
 		</tr>
 		<tr>
 			<td><jstl:out value="${queryc3}" /></td>
-			<td><jstl:out value="${Nombre query3}" /></td>
+			<td><jstl:out value="${avgStddevUserPerRendezvous}" /></td>
 		</tr>
 		<tr>
 			<td><jstl:out value="${queryc4}" /></td>
-			<td><jstl:out value="${Nombre query4}" /></td>
+			<td><jstl:out value="${avgStddevAttendancePerUser}" /></td>
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td><jstl:out value="${queryc5}" /></td>
-			<td><jstl:out value="${Nombre query5}" /></td>
-		</tr>
+			<td><jstl:out value="${topTenRendezvous}" /></td>
+		</tr> -->
 		<tr>
 			<td><jstl:out value="${queryc6}" /></td>
-			<td><jstl:out value="${Nombre query6}" /></td>
+			<td><jstl:out value="${avgStddevAnnouncementsPerRendezvous}" /></td>
 		</tr>
 		<tr>
 			<td><jstl:out value="${queryc7}" /></td>
-			<td><jstl:out value="${Nombre query7}" /></td>
+			<td><jstl:out value="${announcementsWithAboveAverageRendezvous}" /></td>
 		</tr>
 		<tr>
 			<td><jstl:out value="${queryc8}" /></td>
-			<td><jstl:out value="${Nombre query8}" /></td>
+			<td><jstl:out value="${announcementsWithLinksAboveAverageRendezvous}" /></td>
 		</tr>
 		<tr>
 			<td><jstl:out value="${queryc9}" /></td>
-			<td><jstl:out value="${Nombre query9}" /></td>
+			<td><jstl:out value="${avgStddevQuestionsPerRendezvous}" /></td>
 		</tr>
-		<tr>
+		<!--  <tr>
 			<td><jstl:out value="${queryc10}" /></td>
-			<td><jstl:out value="${Nombre query10}" /></td>
-		</tr>
+			<td><jstl:out value="${avgStddevAnswersPerQuestiosnPerRendezvous}" /></td>
+		</tr>-->
 		<tr>
 			<td><jstl:out value="${queryc11}" /></td>
-			<td><jstl:out value="${Nombre query11}" /></td>
+			<td><jstl:out value="${avgStddevRepliesPerComment}" /></td>
 		</tr>
-		<tr>
 	</table>
 
 	<a href="welcome/index.do"><jstl:out value="${returnMsg}" /></a>
