@@ -72,6 +72,7 @@ public class RendezvousService {
 		Assert.notNull(r);
 		Assert.isTrue(this.actorService.findByPrincipal() == r.getCreator());
 		final User u = (User) this.actorService.findByPrincipal();
+		r.getAttendants().add(u);
 		final Rendezvous saved = this.rendezvousRepository.save(r);
 		u.getAttendance().add(saved);
 		this.userService.save(u);

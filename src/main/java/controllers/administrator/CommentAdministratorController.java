@@ -41,8 +41,9 @@ public class CommentAdministratorController extends AbstractController {
 
 		try {
 			this.commentService.delete(c);
-			result = new ModelAndView("redirect:/comments/list.do");
+			result = new ModelAndView("redirect:/rendezvous/list.do");
 		} catch (final Throwable oops) {
+			System.out.println(oops.getMessage());
 			result = this.createEditModelAndView(c, "comment.commit.error");
 		}
 		return result;
