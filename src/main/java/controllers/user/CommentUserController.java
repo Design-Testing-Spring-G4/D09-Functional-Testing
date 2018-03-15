@@ -36,8 +36,20 @@ public class CommentUserController extends AbstractController {
 	@Autowired
 	private ActorService		actorService;
 
+	//Ancillary attributes
 
-	//Listing
+	private Rendezvous			current;
+
+
+	public Rendezvous getCurrent() {
+		return this.current;
+	}
+
+	public void setCurrent(final Rendezvous current) {
+		this.current = current;
+	}
+
+	//Listing	
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam final int varId) {
@@ -59,6 +71,8 @@ public class CommentUserController extends AbstractController {
 			result.addObject("comments", comments);
 			result.addObject("requestURI", "comment/user/list.do");
 		}
+
+		this.setCurrent(r);
 		return result;
 	}
 
@@ -85,9 +99,14 @@ public class CommentUserController extends AbstractController {
 			result = this.createEditModelAndView(comment);
 		else
 			try {
-				this.commentService.save(comment);
+				final Comment saved = this.commentService.save(comment);
+				if (!this.getCurrent().getComments().contains(saved)) {
+					this.getCurrent().getComments().add(saved);
+					this.rendezvousService.saveComment(this.getCurrent());
+				}
 				result = new ModelAndView("redirect:/rendezvous/user/list.do");
 			} catch (final Throwable oops) {
+				System.out.println(oops.toString());
 				result = this.createEditModelAndView(comment, "comment.commit.error");
 			}
 		return result;

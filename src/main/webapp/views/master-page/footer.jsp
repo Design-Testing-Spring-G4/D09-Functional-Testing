@@ -19,13 +19,14 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <spring:message code="master.page.cookies" var="cookies"/>
+<spring:message code="master.page.cookies2" var="cookies2"/>
 <spring:message code="master.page.lopd" var="lopd"/>
 <spring:message code="master.page.lssi" var="lssi"/>
 
 <jsp:useBean id="date" class="java.util.Date" />
 
 <hr />
-<jstl:out value="${cookies}"/> <a href="welcome/cookies.do"><jstl:out value="here"/></a>.<br />
+<jstl:out value="${cookies}"/> <a href="welcome/cookies.do"><jstl:out value="${cookies2}"/></a>.<br />
 <a class="fNiv" href="welcome/terms.do"><jstl:out value="${lopd}"/></a><br />
 <a class="fNiv" href="welcome/contact.do"><jstl:out value="${lssi}"/></a><br />
 

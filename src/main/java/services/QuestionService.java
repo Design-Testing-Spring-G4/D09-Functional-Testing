@@ -38,16 +38,10 @@ public class QuestionService {
 	public Question save(final Question q) {
 		Assert.notNull(q);
 		final Question saved = this.questionRepository.save(q);
-		System.out.println("Question for save: " + q);
-		System.out.println("List questions: " + this.questionRepository.findAll());
 		return saved;
 	}
 	public void delete(final Question q) {
-		System.out.println("question en el service" + q);
 		Assert.notNull(q);
-		System.out.println("lista antes de borrarla " + this.questionRepository.findAll());
 		this.questionRepository.delete(q);
-		System.out.println("lista despues de borrarla " + this.questionRepository.findAll());
-
 	}
 }

@@ -71,13 +71,18 @@ public class RendezvousService {
 	public Rendezvous save(final Rendezvous r) {
 		Assert.notNull(r);
 		Assert.isTrue(this.actorService.findByPrincipal() == r.getCreator());
-		final User u = (User) this.actorService.findByPrincipal();
-		r.getAttendants().add(u);
+
 		final Rendezvous saved = this.rendezvousRepository.save(r);
-		u.getAttendance().add(saved);
-		this.userService.save(u);
 		return saved;
 	}
+
+	//Controller-specific save for comments.
+	public Rendezvous saveComment(final Rendezvous r) {
+		Assert.notNull(r);
+		final Rendezvous saved = this.rendezvousRepository.save(r);
+		return saved;
+	}
+
 	public void delete(final Rendezvous r) {
 		Assert.notNull(r);
 		Assert.isTrue(r.getFinalMode() == false);
@@ -99,11 +104,11 @@ public class RendezvousService {
 	public Rendezvous cancel(final Rendezvous r) {
 		Assert.notNull(r);
 
-		//Business rule: a trip can only be cancelled when it has been published and it hasn't started.
+		//Business rule: a rendezvous can only be cancelled when it has been published and it hasn't started.
 		final Date now = new Date(System.currentTimeMillis());
 		Assert.isTrue(r.getFinalMode() == false && r.getMoment().after(now));
 
-		//Assertion that the user cancelling this trip has the correct privilege.
+		//Assertion that the user cancelling this rendezvous has the correct privilege.
 		Assert.isTrue(this.actorService.findByPrincipal().getId() == r.getCreator().getId());
 
 		final Rendezvous saved = this.rendezvousRepository.save(r);
@@ -117,8 +122,10 @@ public class RendezvousService {
 		User user;
 
 		user = ((User) this.actorService.findByPrincipal());
-		user.getAttendance().add(r);
-		r.getAttendants().add(user);
+		if (!user.getAttendance().contains(r)) {
+			user.getAttendance().add(r);
+			r.getAttendants().add(user);
+		}
 		this.rendezvousRepository.save(r);
 		this.userService.save(user);
 	}

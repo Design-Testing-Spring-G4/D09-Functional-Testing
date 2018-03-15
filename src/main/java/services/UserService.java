@@ -65,21 +65,20 @@ public class UserService {
 	}
 
 	public User save(final User user) {
-		//System.out.println("service" + u.getName() + u.getSurname() + u.getPhone() + u.getAddress() + u.getEmail() + u.getUserAccount() + u.getRendezvous() + u.getAttendance() + u.getAnnouncements() + u.getComments() + u.getAnswers());
 		Assert.notNull(user);
 
-		//Assertion that the user modifying this administrator has the correct privilege.
-		Assert.isTrue(this.actorService.findByPrincipal().getId() == user.getId());
+		//Assertion that the user modifying this user has the correct privilege.
+		if (user.getId() != 0)
+			Assert.isTrue(this.actorService.findByPrincipal().getId() == user.getId());
 
 		final User u = this.userRepository.save(user);
-		System.out.println("service" + u.getName() + u.getSurname() + u.getPhone() + u.getAddress() + u.getEmail() + u.getUserAccount() + u.getRendezvous() + u.getAttendance() + u.getAnnouncements() + u.getComments() + u.getAnswers());
 		return u;
 	}
 
 	public void delete(final User user) {
 		Assert.notNull(user);
 
-		//Assertion that the user deleting this administrator has the correct privilege.
+		//Assertion that the user deleting this user has the correct privilege.
 		Assert.isTrue(this.actorService.findByPrincipal().getId() == user.getId());
 
 		this.userRepository.delete(user);

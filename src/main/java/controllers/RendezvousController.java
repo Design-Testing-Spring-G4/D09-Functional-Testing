@@ -41,7 +41,6 @@ public class RendezvousController extends AbstractController {
 
 		return result;
 	}
-
 	@RequestMapping(value = "/rendezvousUserList", method = RequestMethod.GET)
 	public ModelAndView rendezvousUserList(@RequestParam final int varId) {
 		final ModelAndView result;

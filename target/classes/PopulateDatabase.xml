@@ -83,7 +83,7 @@
 	
 	<bean id="userAccount6" class="security.UserAccount">
 		<property name="username" value="user4" />
-		<property name="password" value="adafaf6215a1d8adva" />
+		<property name="password" value="3f02ebe3d7929b091e3d8ccfde2f3bc6" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -93,17 +93,6 @@
 		</property>
 	</bean>
 	
-	<bean id="userAccount7" class="security.UserAccount">
-		<property name="username" value="user5" />
-		<property name="password" value="adgvaadfv" />
-		<property name="authorities">
-			<list>
-				<bean class="security.Authority">
-					<property name="authority" value="USER" />
-				</bean>
-			</list>
-		</property>
-	</bean>
 	<!-- Admin beans -->	
 	
 	<bean id="admin" class="domain.Administrator">
@@ -259,34 +248,6 @@
 		</property>
 	</bean>
 	
-	<bean id="user5" class="domain.User">
-		<property name="name" value="adfa" />
-		<property name="surname" value="adsfaf Moreno" />
-		<property name="phone" value="2523455" />
-		<property name="address" value="R. Nocturne 1, Toulouse" />
-		<property name="email" value="serferg183@mail.com" />
-		<property name="userAccount" ref="userAccount7" />
-		<property name="rendezvous">
-			<list>
-			</list>
-		</property>
-		<property name="attendance">
-			<list>
-			</list>
-		</property>
-		<property name="announcements">
-			<list>
-			</list>
-		</property>
-		<property name="comments">
-			<list>
-			</list>
-		</property>
-		<property name="answers">
-			<list>
-			</list>
-		</property>
-	</bean>
 	<!-- Announcement beans -->
 	
 	<bean id="announcement1" class="domain.Announcement">

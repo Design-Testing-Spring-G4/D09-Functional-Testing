@@ -29,7 +29,7 @@
 <spring:message code="user.save" var="save" />
 <spring:message code="user.cancel" var="cancel" />
 
-<security:authorize access="isAnonymous()">
+<security:authorize access="isAnonymous() or hasRole('USER')">
 
 <form:form id="form" action="${requestURI}" modelAttribute="user">
 

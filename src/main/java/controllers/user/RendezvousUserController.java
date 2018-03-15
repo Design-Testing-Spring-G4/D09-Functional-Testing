@@ -37,16 +37,18 @@ public class RendezvousUserController extends AbstractController {
 	public ModelAndView list() {
 		final ModelAndView result;
 		Collection<Rendezvous> rendezvouses;
+		User u;
 
-		rendezvouses = ((User) this.actorService.findByPrincipal()).getAttendance();
+		u = ((User) this.actorService.findByPrincipal());
+		rendezvouses = u.getAttendance();
 
 		result = new ModelAndView("rendezvous/list");
 		result.addObject("rendezvouses", rendezvouses);
+		result.addObject("userId", u.getId());
 		result.addObject("requestURI", "rendezvous/user/list.do");
 
 		return result;
 	}
-
 	//Creation
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -83,7 +85,7 @@ public class RendezvousUserController extends AbstractController {
 		rendezvous = this.rendezvousService.findOne(varId);
 		Assert.notNull(rendezvous);
 
-		if (rendezvous.getFinalMode() == true || rendezvous.getDeleted() == true)
+		if (rendezvous.getFinalMode() == true)
 			result = new ModelAndView("redirect:/rendezvous/user/list.do");
 		else {
 			rendezvous.setDeleted(true);
@@ -101,8 +103,9 @@ public class RendezvousUserController extends AbstractController {
 			result = this.createEditModelAndView(rendezvous);
 		else
 			try {
-				this.rendezvousService.save(rendezvous);
-				result = new ModelAndView("redirect:/rendezvous/list.do");
+				final Rendezvous saved = this.rendezvousService.save(rendezvous);
+				this.rendezvousService.addRendezvous(saved);
+				result = new ModelAndView("redirect:/rendezvous/user/list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(rendezvous, "rendezvous.commit.error");
 			}
@@ -144,7 +147,7 @@ public class RendezvousUserController extends AbstractController {
 
 		r = this.rendezvousService.findOne(varId);
 		this.rendezvousService.addRendezvous(r);
-		result = new ModelAndView("redirect:/rendezvous/user/list.do");
+		result = new ModelAndView("redirect:/rendezvous/list.do");
 
 		return result;
 	}

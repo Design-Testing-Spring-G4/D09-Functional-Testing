@@ -64,6 +64,8 @@
 	</display:column>
 
 	<display:column property="deleted" title="${deleted}" sortable="true" />
+	
+	<%-- Links towards edition, display and others --%>
 
 	<spring:url var="displayUrl" value="rendezvous/display.do">
 		<spring:param name="varId" value="${row.id}" />
@@ -73,7 +75,7 @@
 		<a href="${displayUrl}"><jstl:out value="${details}" /></a>
 	</display:column>
 
-	<spring:url var="userUrl" value="user/list.do">
+	<spring:url var="userUrl" value="user/listAttendants.do">
 		<spring:param name="varId" value="${row.id}" />
 	</spring:url>
 
@@ -83,95 +85,93 @@
 
 	<security:authorize access="hasRole('USER')">
 
-		
-		<spring:url var="editUrl"
-			value="rendezvous/user/edit.do">
-			<spring:param name="varId" value="${row.id}" />
-		</spring:url>
+	<spring:url var="editUrl" value="rendezvous/user/edit.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
 
-		<display:column>
-			<a href="${editUrl}"><jstl:out
-					value="${msgEdit}" /></a>
-		</display:column>
-		
-		<spring:url var="rsvpUrl"
-			value="rendezvous/user/rsvp.do">
-			<spring:param name="varId" value="${row.id}" />
-		</spring:url>
+	<jstl:if test="${requestURI == 'rendezvous/user/list.do'}">
+	<display:column>
+		<jstl:if test="${row.finalMode == false && row.deleted == false && row.creator.id == userId}">
+			<a href="${editUrl}"><jstl:out value="${msgEdit}" /></a>
+		</jstl:if>
+	</display:column>
+	</jstl:if>
+	
+	<spring:url var="rsvpUrl" value="rendezvous/user/rsvp.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
 
-		<display:column>
-			<a href="${rsvpUrl}"><jstl:out
-					value="${msgRSVP}" /></a>
-		</display:column>
-		
-		
-		<spring:url var="cancelUrl"
-			value="rendezvous/user/cancel.do">
-			<spring:param name="varId" value="${row.id}" />
-		</spring:url>
+	<display:column>
+		<a href="${rsvpUrl}"><jstl:out value="${msgRSVP}" /></a>
+	</display:column>
 
-		<display:column>
-			<a href="${cancelUrl}"><jstl:out
-					value="${msgCancel}" /></a>
-		</display:column>
+	<spring:url var="cancelUrl" value="rendezvous/user/cancel.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
+
+	<display:column>
+		<a href="${cancelUrl}"><jstl:out value="${msgCancel}" /></a>
+	</display:column>
 
 	<spring:url var="commentsUrl" value="comment/user/list.do">
-			<spring:param name="varId" value="${row.id}" />
-		</spring:url>
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
 
-		<display:column>
-			<a href="${commentsUrl}"><jstl:out value="${comments}" /></a>
-		</display:column>
+	<display:column>
+		<a href="${commentsUrl}"><jstl:out value="${comments}" /></a>
+	</display:column>
 
-		<spring:url var="similarRendezvousesUrl"
-			value="rendezvous/listRelated.do">
-			<spring:param name="varId" value="${row.id}" />
-		</spring:url>
+	<spring:url var="similarRendezvousesUrl" value="rendezvous/listRelated.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
 
-		<display:column>
-			<a href="${similarRendezvousesUrl}"><jstl:out
-					value="${similarRendezvouses}" /></a>
-		</display:column>
+	<display:column>
+		<a href="${similarRendezvousesUrl}"><jstl:out value="${similarRendezvouses}" /></a>
+	</display:column>
 
-	<spring:url var="deleteUrl"
-			value="rendezvous/user/delete.do">
-			<spring:param name="varId" value="${row.id}" />
-		</spring:url>
+	<spring:url var="deleteUrl"	value="rendezvous/user/delete.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
 
-		<display:column>
-			<a href="${deleteUrl}"><jstl:out
-					value="${msgDelete}" /></a>
-		</display:column>
-	</security:authorize>
+	<jstl:if test="${requestURI == 'rendezvous/user/list.do'}">
+	<display:column>
+		<jstl:if test="${row.finalMode == false && row.deleted == false && row.creator.id == userId}">
+			<a href="${deleteUrl}"><jstl:out value="${msgDelete}" /></a>
+		</jstl:if>
+	</display:column>
+	</jstl:if>
 	
-	<security:authorize access="hasRole('ADMIN')">
-	<spring:url var="removeUrl"
-			value="rendezvous/administrator/delete.do">
-			<spring:param name="varId" value="${row.id}" />
-		</spring:url>
+</security:authorize>
+	
+<security:authorize access="hasRole('ADMIN')">
 
-		<display:column>
-			<a href="${removeUrl}"><jstl:out
-					value="${msgDelete}" /></a>
-		</display:column>
+	<spring:url var="removeUrl"	value="rendezvous/administrator/delete.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
 
-		<spring:url var="commentsUrl" value="comment/administrator/list.do">
-			<spring:param name="varId" value="${row.id}" />
-		</spring:url>
+	<display:column>
+		<a href="${removeUrl}"><jstl:out value="${msgDelete}" /></a>
+	</display:column>
 
-		<display:column>
-			<a href="${commentsUrl}"><jstl:out value="${comments}" /></a>
-		</display:column>
+	<spring:url var="commentsUrl" value="comment/administrator/list.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
+
+	<display:column>
+		<a href="${commentsUrl}"><jstl:out value="${comments}" /></a>
+	</display:column>
 		
-	</security:authorize>
-
-
+</security:authorize>
 </display:table>
 
-<spring:url var="createRendezvousUrl" value="rendezvous/user/create.do"/>
-<a href="${createRendezvousUrl}"><jstl:out
-		value="${createRendezvous}" /></a>
-		<br/>
+<security:authorize access="hasRole('USER')">
+
+	<spring:url var="createRendezvousUrl" value="rendezvous/user/create.do"/>
+	<a href="${createRendezvousUrl}"><jstl:out value="${createRendezvous}" /></a>
+	
+</security:authorize>
+
+<br/>
 <input type="button" name="return" value="${msgReturn}"
 	onclick="javascript: relativeRedir('welcome/index.do');" />
 
