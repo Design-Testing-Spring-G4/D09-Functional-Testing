@@ -26,7 +26,7 @@
 <spring:message code="comment.save" var="save" />
 <spring:message code="comment.cancel" var="cancel" />
 
-<security:authorize access="hasRole('USER')">
+<security:authorize access="isAuthenticated()">
 
 <form:form id="form" action="${requestURI}" modelAttribute="comment">
 

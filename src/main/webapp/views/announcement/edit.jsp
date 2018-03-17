@@ -21,13 +21,12 @@
 
 <%-- Stored message variables --%>
 
-<spring:message code="announcement.moment" var="msgMoment" />
-<spring:message code="announcement.title" var="msgTitle" />
-<spring:message code="announcement.description" var="msgDescription" />
-<spring:message code="announcement.save" var="msgSave" />
-<spring:message code="announcement.cancel" var="msgCancel" />
+<spring:message code="announcement.title" var="title" />
+<spring:message code="announcement.description" var="description" />
+<spring:message code="announcement.save" var="save" />
+<spring:message code="announcement.cancel" var="cancel" />
 
-<security:authorize access="hasRole('USER')">
+<security:authorize access="isAuthenticated()">
 
 	<form:form action="${requestURI}" modelAttribute="announcement">
 
@@ -36,22 +35,20 @@
 		<form:hidden path="id" />
 		<form:hidden path="version" />
 		<form:hidden path="user" />
+		<form:hidden path="moment" />
 
-
-		<jstl:out value="${msgMoment}" />:
-		<jstl:out value="${announcement.moment}" />
-		<br />
-		<br />
-
-		<jstl:out value="${msgTitle}" />:
-		<jstl:out value="${announcement.title}" />
-		<br />
+		<form:label path="title">
+			<jstl:out value="${title}" />
+		</form:label>
+		<form:input path="title" />
+		<form:errors cssClass="error" path="title" />
 		<br />
 
 		<form:label path="description">
 			<jstl:out value="${msgDescription}" />
 		</form:label>
 		<form:textarea path="description" />
+		<form:errors cssClass="error" path="description" />
 		<br />
 		
 		<form:select path="rendezvous">
@@ -65,10 +62,10 @@
 
 		<%-- Buttons --%>
 
-		<input type="submit" name="save" value="${msgSave}">
+		<input type="submit" name="save" value="${save}">
 
-		<input type="button" name="cancel" value="${msgCancel}"
-			onclick="javascript: relativeRedir('announcement/list.do');" />
+		<input type="button" name="cancel" value="${cancel}"
+			onclick="javascript: relativeRedir('welcome/index.do');" />
 			
 	</form:form>
 

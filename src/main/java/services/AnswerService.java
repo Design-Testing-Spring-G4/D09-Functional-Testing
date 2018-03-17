@@ -24,6 +24,8 @@ public class AnswerService {
 	private QuestionService		questionService;
 
 
+	//Simple CRUD methods
+
 	public Answer create() {
 		final Answer a = new Answer();
 		a.setQuestion(this.questionService.findAll().iterator().next());
@@ -49,6 +51,12 @@ public class AnswerService {
 	public void delete(final Answer a) {
 		Assert.notNull(a);
 		this.answerRepository.delete(a);
+	}
+
+	//Ancillary methods
+
+	public Double[] avgStddevAnswer() {
+		return this.answerRepository.avgStddevAnswer();
 	}
 
 }

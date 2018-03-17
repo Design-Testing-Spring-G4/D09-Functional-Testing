@@ -101,6 +101,7 @@
 		<property name="phone" value="618392172" />
 		<property name="address" value="c/ Central 22, Madrid" />
 		<property name="email" value="jose01@mail.com" />
+		<property name="birthDate" value="09/12/1967" />
 		<property name="userAccount" ref="userAccount1" />
 	</bean>
 	
@@ -112,6 +113,7 @@
 		<property name="phone" value="1002978342" />
 		<property name="address" value="Plaza Amistades 18, Segovia" />
 		<property name="email" value="blanca_p@mail.com" />
+		<property name="birthDate" value="03/24/1981" />
 		<property name="userAccount" ref="userAccount2" />
 		<property name="rendezvous">
 			<list></list>
@@ -148,6 +150,7 @@
 		<property name="phone" value="263561" />
 		<property name="address" value="31 Dover St., London" />
 		<property name="email" value="joshmail@mail.com" />
+		<property name="birthDate" value="12/09/1998" />
 		<property name="userAccount" ref="userAccount3" />
 		<property name="rendezvous">
 			<list>
@@ -186,6 +189,7 @@
 		<property name="phone" value="45582583527528" />
 		<property name="address" value="R. Nocturne 1, Toulouse" />
 		<property name="email" value="jds183@mail.com" />
+		<property name="birthDate" value="06/15/1989" />
 		<property name="userAccount" ref="userAccount4" />
 		<property name="rendezvous">
 			<list>
@@ -225,6 +229,7 @@
 		<property name="phone" value="564498491" />
 		<property name="address" value="R. Nocturne 1, Toulouse" />
 		<property name="email" value="smm183@mail.com" />
+		<property name="birthDate" value="01/06/2004" />
 		<property name="userAccount" ref="userAccount6" />
 		<property name="rendezvous">
 			<list>
@@ -263,7 +268,7 @@
 		<property name="title" value="Urgent" />
 		<property name="description" value="Do not bring uninvited friends." />
 		<property name="user" ref="user3" />
-		<property name="rendezvous" ref="rendezvous2" />
+		<property name="rendezvous" ref="rendezvous3" />
 	</bean>
 	
 	<bean id="announcement3" class="domain.Announcement">
@@ -271,7 +276,7 @@
 		<property name="title" value="Second" />
 		<property name="description" value="The previous announcement is invalid." />
 		<property name="user" ref="user3" />
-		<property name="rendezvous" ref="rendezvous2" />
+		<property name="rendezvous" ref="rendezvous3" />
 	</bean>
 	
 	<!-- Comment beans -->
@@ -471,7 +476,7 @@
 	<bean id="rendezvous3" class="domain.Rendezvous">
 		<property name="name" value="Reunion at Berlin" />
 		<property name="description" value="A visit to the city." />
-		<property name="moment" value="12/01/2018 09:30" />
+		<property name="moment" value="01/12/2018 09:30" />
 		<property name="picture" value="" />
 		<property name="coordinates" value="+52.52, +13.40" />
 		<property name="finalMode" value="true" />

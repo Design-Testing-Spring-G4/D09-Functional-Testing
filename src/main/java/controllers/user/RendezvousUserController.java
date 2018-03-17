@@ -32,6 +32,20 @@ public class RendezvousUserController extends AbstractController {
 	@Autowired
 	private ActorService		actorService;
 
+	//Ancillary attributes
+
+	private Rendezvous			current;
+
+
+	public Rendezvous getCurrent() {
+		return this.current;
+	}
+
+	public void setCurrent(final Rendezvous current) {
+		this.current = current;
+	}
+
+	//Listing
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
@@ -49,6 +63,7 @@ public class RendezvousUserController extends AbstractController {
 
 		return result;
 	}
+
 	//Creation
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -151,6 +166,41 @@ public class RendezvousUserController extends AbstractController {
 
 		return result;
 	}
+
+	//Linking
+
+	@RequestMapping(value = "/link", method = RequestMethod.GET)
+	public ModelAndView link(@Valid final int varId) {
+		ModelAndView result;
+		Rendezvous r;
+		Collection<Rendezvous> rendezvouses;
+
+		r = this.rendezvousService.findOne(varId);
+		this.setCurrent(r);
+		rendezvouses = ((User) this.actorService.findByPrincipal()).getRendezvous();
+		result = new ModelAndView("rendezvous/link");
+		result.addObject("rendezvouses", rendezvouses);
+		result.addObject("requestURI", "rendezvous/user/link.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/linkSave", method = RequestMethod.GET)
+	public ModelAndView linkSave(@Valid final int varId) {
+		ModelAndView result;
+		final Rendezvous current = this.getCurrent();
+		final Rendezvous r = this.rendezvousService.findOne(varId);
+
+		final Collection<Rendezvous> links = r.getLinks();
+		if (!links.contains(current) && current.getCreator().getId() != this.actorService.findByPrincipal().getId()) {
+			links.add(current);
+			r.setLinks(links);
+			this.rendezvousService.saveInternal(r);
+		}
+		result = new ModelAndView("redirect:/rendezvous/user/list.do");
+		return result;
+	}
+
 	//Ancillary methods
 
 	protected ModelAndView createEditModelAndView(final Rendezvous rendezvous) {

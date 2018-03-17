@@ -24,6 +24,7 @@
 <spring:message code="user.name" var="name" />
 <spring:message code="user.surname" var="surname" />
 <spring:message code="user.email" var="email" />
+<spring:message code="user.birthDate" var="birthDate" />
 <spring:message code="user.phone" var="phone" />
 <spring:message code="user.address" var="address" />
 <spring:message code="user.save" var="save" />
@@ -44,7 +45,6 @@
 	<form:hidden path="announcements" />
 	<form:hidden path="comments" />
 	<form:hidden path="answers" />
-	
 	
 	
 	<form:label path="userAccount.username">
@@ -73,6 +73,13 @@
 	</form:label>
 			<form:input path="surname" />
 			<form:errors cssClass="error" path="surname" />
+	<br />
+	
+	<form:label path="birthDate">
+		<jstl:out value="${birthDate}" />:
+	</form:label>
+			<form:input path="birthDate" placeholder="dd/MM/yy"/>
+			<form:errors cssClass="error" path="birthDate" />
 	<br />
 	
 	<form:label path="email">

@@ -30,6 +30,7 @@
 <spring:message code="user.return"  var="msgReturn"/>
 <spring:message code="user.rendezvouses"  var="msgRendezvouses"/>
 
+<security:authorize access="permitAll()">
 	
 	<jstl:out value="${msgName}" />:
 	<jstl:out value="${user.name}" />
@@ -60,3 +61,4 @@
 	<a href="${rendezvousesUrl}"><jstl:out value="${msgRendezvouses}" /></a>
 	<br />
 	
+</security:authorize>

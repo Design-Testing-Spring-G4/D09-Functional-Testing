@@ -102,7 +102,7 @@ public class CommentUserController extends AbstractController {
 				final Comment saved = this.commentService.save(comment);
 				if (!this.getCurrent().getComments().contains(saved)) {
 					this.getCurrent().getComments().add(saved);
-					this.rendezvousService.saveComment(this.getCurrent());
+					this.rendezvousService.saveInternal(this.getCurrent());
 				}
 				result = new ModelAndView("redirect:/rendezvous/user/list.do");
 			} catch (final Throwable oops) {

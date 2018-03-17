@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 
 import repositories.CommentRepository;
 import domain.Comment;
+import domain.Rendezvous;
 import domain.User;
 
 @Service
@@ -28,6 +29,11 @@ public class CommentService {
 	@Autowired
 	private ActorService		actorService;
 
+	@Autowired
+	private RendezvousService	rendezvousService;
+
+
+	//Simple CRUD methods
 
 	public Comment create() {
 		final Comment c = new Comment();
@@ -58,9 +64,22 @@ public class CommentService {
 
 	public void delete(final Comment c) {
 		Assert.notNull(c);
-		this.commentRepository.delete(c);
 
+		final Collection<Rendezvous> rendezvous = this.rendezvousService.findAll();
+		for (final Rendezvous r : rendezvous) {
+			final Collection<Comment> comments = r.getComments();
+			if (comments.contains(c)) {
+				comments.remove(c);
+				r.setComments(comments);
+				this.rendezvousService.saveInternal(r);
+			}
+		}
+
+		this.commentRepository.delete(c);
 	}
+
+	//Ancillary methods
+
 	public Double[] avgStddevRepliesPerComment() {
 		return this.commentRepository.avgStddevRepliesPerComment();
 	}

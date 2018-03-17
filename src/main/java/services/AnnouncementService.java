@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 
 import repositories.AnnouncementRepository;
 import domain.Announcement;
+import domain.Rendezvous;
 import domain.User;
 
 @Service
@@ -27,6 +28,11 @@ public class AnnouncementService {
 	@Autowired
 	private ActorService			actorService;
 
+	@Autowired
+	private RendezvousService		rendezvousService;
+
+
+	//Simple CRUD methods
 
 	public Announcement create() {
 		final Announcement a = new Announcement();
@@ -54,7 +60,13 @@ public class AnnouncementService {
 
 	public void delete(final Announcement a) {
 		Assert.notNull(a);
-		Assert.isTrue(this.actorService.findByPrincipal() == a.getUser());
+
+		final Rendezvous r = a.getRendezvous();
+		final Collection<Announcement> ca = r.getAnnouncements();
+		ca.remove(a);
+		r.setAnnouncements(ca);
+		this.rendezvousService.saveInternal(r);
+
 		this.announcementRepository.delete(a);
 	}
 }

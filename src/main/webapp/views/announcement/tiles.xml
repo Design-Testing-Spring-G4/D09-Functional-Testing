@@ -22,7 +22,7 @@
 	</definition>
 	
 	<definition name="announcement/edit" extends="master.page">	
-		<put-attribute name="title" value="Edit announcement" />
+		<put-attribute name="title" value="Create announcement" />
 		<put-attribute name="body" value="/views/announcement/edit.jsp" />
 	</definition>
 	

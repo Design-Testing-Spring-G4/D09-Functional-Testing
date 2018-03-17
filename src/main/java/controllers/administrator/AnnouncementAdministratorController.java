@@ -54,9 +54,10 @@ public class AnnouncementAdministratorController extends AbstractController {
 		Assert.notNull(a);
 		try {
 			this.announcementService.delete(a);
-			result = new ModelAndView("redirect:/announcement/list.do");
+			result = new ModelAndView("redirect:/rendezvous/list.do");
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(a, "announcement.commit.error");
+			System.out.println(oops.toString());
+			result = new ModelAndView("redirect:/rendezvous/list.do");
 		}
 		return result;
 	}

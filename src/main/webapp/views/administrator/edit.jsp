@@ -16,4 +16,6 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
+<security:authorize access="hasRole('ADMIN')">
 <p><spring:message code="customer.action.1" /></p>
+</security:authorize>

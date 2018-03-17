@@ -26,8 +26,8 @@
 <spring:message code="answer.answer" var="msgAnswer" />
 <spring:message code="answer.return" var="msgReturn" />
 
-
-	<%-- For the selected rendezvous in the list received as model, display the following information: --%>
+<security:authorize access="permitAll">
+	<%-- For the selected answer in the list received as model, display the following information: --%>
 	
 	
 	<jstl:out value="${msgAnswer}" />:
@@ -36,3 +36,4 @@
 
 
 <a href="answer/user/list.do"><jstl:out value="${msgReturn}" /></a>
+</security:authorize>

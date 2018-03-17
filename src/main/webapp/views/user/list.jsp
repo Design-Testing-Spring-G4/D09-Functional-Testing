@@ -36,6 +36,8 @@
 
 <%-- Listing grid --%>
 
+<security:authorize access="permitAll()">
+
 <display:table pagesize="5" class="displaytag" keepStatus="false"
 	name="users" requestURI="${requestURI}" id="row">
 	
@@ -78,3 +80,4 @@
 <input type="button" name="return" value="${msgReturn}"
 		onclick="javascript: relativeRedir('welcome/index.do');" />
 		
+</security:authorize>

@@ -45,9 +45,13 @@
 <spring:message code="rendezvous.cancel" var="msgCancel" />
 <spring:message code="rendezvous.deleted" var="deleted" />
 <spring:message code="rendezvous.dateint" var="formatDate" />
+<spring:message code="rendezvous.passed" var="passed" />
+<spring:message code="rendezvous.link" var="link" />
 
+<jsp:useBean id="now" class="java.util.Date"/>
 
 <%-- Listing grid --%>
+<security:authorize access="permitAll()">
 
 <display:table pagesize="5" class="displaytag" keepStatus="false"
 	name="rendezvouses" requestURI="${requestURI}" id="row">
@@ -60,7 +64,13 @@
 		sortable="true" />
 
 	<display:column title="${moment}" sortable="true">
-		<fmt:formatDate value="${row.moment}" pattern="${formatDate}" />
+		<jstl:if test="${row.moment > now}">
+			<fmt:formatDate value="${row.moment}" pattern="${formatDate}" />
+		</jstl:if>
+		
+		<jstl:if test="${row.moment <= now}">
+			<jstl:out value="${passed}" />
+		</jstl:if>
 	</display:column>
 
 	<display:column property="deleted" title="${deleted}" sortable="true" />
@@ -82,6 +92,14 @@
 	<display:column>
 		<a href="${userUrl}"><jstl:out value="${users}" /></a>
 	</display:column>
+	
+	<spring:url var="announcementsUrl" value="announcement/list.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
+
+	<display:column>
+		<a href="${announcementsUrl}"><jstl:out value="${announcements}" /></a>
+	</display:column>
 
 	<security:authorize access="hasRole('USER')">
 
@@ -90,12 +108,20 @@
 	</spring:url>
 
 	<jstl:if test="${requestURI == 'rendezvous/user/list.do'}">
-	<display:column>
-		<jstl:if test="${row.finalMode == false && row.deleted == false && row.creator.id == userId}">
-			<a href="${editUrl}"><jstl:out value="${msgEdit}" /></a>
-		</jstl:if>
-	</display:column>
+		<display:column>
+			<jstl:if test="${row.finalMode == false && row.deleted == false && row.creator.id == userId}">
+				<a href="${editUrl}"><jstl:out value="${msgEdit}" /></a>
+			</jstl:if>
+		</display:column>
 	</jstl:if>
+	
+	<spring:url var="linkUrl" value="rendezvous/user/link.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
+	
+	<display:column>
+			<a href="${linkUrl}"><jstl:out value="${link}" /></a>
+	</display:column>
 	
 	<spring:url var="rsvpUrl" value="rendezvous/user/rsvp.do">
 		<spring:param name="varId" value="${row.id}" />
@@ -175,3 +201,4 @@
 <input type="button" name="return" value="${msgReturn}"
 	onclick="javascript: relativeRedir('welcome/index.do');" />
 
+</security:authorize>

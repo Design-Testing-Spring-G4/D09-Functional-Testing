@@ -28,12 +28,12 @@
 <spring:message code="administrator.queryc3" var="queryc3" />
 <spring:message code="administrator.queryc4" var="queryc4" />
 <spring:message code="administrator.queryc5" var="queryc5" />
-<spring:message code="administrator.queryc6" var="queryc6" />
-<spring:message code="administrator.queryc7" var="queryc7" />
-<spring:message code="administrator.queryc8" var="queryc8" />
-<spring:message code="administrator.queryc9" var="queryc9" />
-<spring:message code="administrator.queryc10" var="queryc10" />
-<spring:message code="administrator.queryc11" var="queryc11" />
+<spring:message code="administrator.queryb1" var="queryb1" />
+<spring:message code="administrator.queryb2" var="queryb2" />
+<spring:message code="administrator.queryb3" var="queryb3" />
+<spring:message code="administrator.querya1" var="querya1" />
+<spring:message code="administrator.querya2" var="querya2" />
+<spring:message code="administrator.querya3" var="querya3" />
 <spring:message code="administrator.return" var="returnMsg" />
 
 <security:authorize access="hasRole('ADMIN')">
@@ -61,32 +61,32 @@
 			<td><jstl:out value="${queryc4}" /></td>
 			<td><jstl:out value="${avgStddevAttendancePerUser}" /></td>
 		</tr>
-		<!-- <tr>
+		<tr>
 			<td><jstl:out value="${queryc5}" /></td>
 			<td><jstl:out value="${topTenRendezvous}" /></td>
-		</tr> -->
+		</tr>
 		<tr>
-			<td><jstl:out value="${queryc6}" /></td>
+			<td><jstl:out value="${queryb1}" /></td>
 			<td><jstl:out value="${avgStddevAnnouncementsPerRendezvous}" /></td>
 		</tr>
 		<tr>
-			<td><jstl:out value="${queryc7}" /></td>
+			<td><jstl:out value="${queryb2}" /></td>
 			<td><jstl:out value="${announcementsWithAboveAverageRendezvous}" /></td>
 		</tr>
 		<tr>
-			<td><jstl:out value="${queryc8}" /></td>
+			<td><jstl:out value="${queryb3}" /></td>
 			<td><jstl:out value="${announcementsWithLinksAboveAverageRendezvous}" /></td>
 		</tr>
 		<tr>
-			<td><jstl:out value="${queryc9}" /></td>
+			<td><jstl:out value="${querya1}" /></td>
 			<td><jstl:out value="${avgStddevQuestionsPerRendezvous}" /></td>
 		</tr>
-		<!--  <tr>
-			<td><jstl:out value="${queryc10}" /></td>
-			<td><jstl:out value="${avgStddevAnswersPerQuestiosnPerRendezvous}" /></td>
-		</tr>-->
 		<tr>
-			<td><jstl:out value="${queryc11}" /></td>
+			<td><jstl:out value="${querya2}" /></td>
+			<td><jstl:out value="${avgStddevAnswer}" /></td>
+		</tr>
+		<tr>
+			<td><jstl:out value="${querya3}" /></td>
 			<td><jstl:out value="${avgStddevRepliesPerComment}" /></td>
 		</tr>
 	</table>

@@ -4,16 +4,17 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.AnnouncementRepository;
 import repositories.CommentRepository;
-import repositories.QuestionRepository;
 import repositories.RendezvousRepository;
 import domain.Announcement;
 import domain.Comment;
@@ -39,9 +40,6 @@ public class RendezvousService {
 
 	@Autowired
 	private CommentRepository		commentRepository;
-
-	@Autowired
-	private QuestionRepository		questionRepository;
 
 
 	public Rendezvous create() {
@@ -76,8 +74,8 @@ public class RendezvousService {
 		return saved;
 	}
 
-	//Controller-specific save for comments.
-	public Rendezvous saveComment(final Rendezvous r) {
+	//Controller-specific save for comments and announcements.
+	public Rendezvous saveInternal(final Rendezvous r) {
 		Assert.notNull(r);
 		final Rendezvous saved = this.rendezvousRepository.save(r);
 		return saved;
@@ -85,21 +83,22 @@ public class RendezvousService {
 
 	public void delete(final Rendezvous r) {
 		Assert.notNull(r);
-		Assert.isTrue(r.getFinalMode() == false);
 		if (!(r.getAnnouncements()).isEmpty())
 			for (final Announcement a : r.getAnnouncements())
 				this.announcementRepository.delete(a);
 		if (!(r.getComments()).isEmpty())
 			for (final Comment c : r.getComments())
 				this.commentRepository.delete(c);
-		if (!(r.getQuestions()).isEmpty())
-			for (final Question q : r.getQuestions())
-				this.questionRepository.delete(q);
+		//		if (!(r.getQuestions()).isEmpty())
+		//			for (final Question q : r.getQuestions())
+		//				this.questionRepository.delete(q);
 		for (final Rendezvous x : this.rendezvousRepository.findAll())
 			if (x.getLinks().contains(r))
 				x.getLinks().remove(r);
 		this.rendezvousRepository.delete(r);
 	}
+
+	//Ancillary methods
 
 	public Rendezvous cancel(final Rendezvous r) {
 		Assert.notNull(r);
@@ -141,7 +140,6 @@ public class RendezvousService {
 			this.rendezvousRepository.save(rendezvous);
 			this.userService.save(user);
 		}
-
 	}
 
 	public Collection<Question> questionsByUser(final User user) {
@@ -159,8 +157,9 @@ public class RendezvousService {
 		return this.rendezvousRepository.ratioRendezvousVsNotRendezvous();
 	}
 
-	public Collection<Rendezvous> topTenRendezvous() {
-		return this.rendezvousRepository.topTenRendezvous(new PageRequest(0, 10));
+	public List<Rendezvous> topTenRendezvous() {
+		final Pageable topTen = new PageRequest(0, 10);
+		return this.rendezvousRepository.topTenRendezvous(topTen);
 	}
 
 	public Double[] avgStddevAnnouncementsPerRendezvous() {
@@ -177,11 +176,5 @@ public class RendezvousService {
 	public Double[] avgStddevQuestionsPerRendezvous() {
 		return this.rendezvousRepository.avgStddevQuestionsPerRendezvous();
 	}
-
-	/*
-	 * public Double[] avgStddevAnswersPerQuestiosnPerRendezvous() {
-	 * return this.rendezvousRepository.avgStddevAnswersPerQuestiosnPerRendezvous();
-	 * }
-	 */
 
 }

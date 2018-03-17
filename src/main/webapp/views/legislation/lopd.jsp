@@ -28,20 +28,21 @@
 
 <b><spring:message code="legislation.title3"/></b>
 <p><spring:message code="legislation.lopd5"/></p>
-
-<b><spring:message code="legislation.title4"/></b>
 <p><spring:message code="legislation.lopd6"/></p>
 
-<b><spring:message code="legislation.title5"/></b>
+<b><spring:message code="legislation.title4"/></b>
 <p><spring:message code="legislation.lopd7"/></p>
-<p><spring:message code="legislation.lopd8"/></p>
 
-<b><spring:message code="legislation.title6"/></b>
+<b><spring:message code="legislation.title5"/></b>
+<p><spring:message code="legislation.lopd8"/></p>
 <p><spring:message code="legislation.lopd9"/></p>
 
-<b><spring:message code="legislation.title7"/></b>
+<b><spring:message code="legislation.title6"/></b>
 <p><spring:message code="legislation.lopd10"/></p>
+
+<b><spring:message code="legislation.title7"/></b>
 <p><spring:message code="legislation.lopd11"/></p>
 <p><spring:message code="legislation.lopd12"/></p>
+<p><spring:message code="legislation.lopd13"/></p>
 
 </security:authorize>

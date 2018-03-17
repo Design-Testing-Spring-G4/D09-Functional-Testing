@@ -43,7 +43,8 @@
 
 	<%-- For the selected rendezvous in the list received as model, display the following information: --%>
 	
-	<security:authorize access="permitAll()">
+<security:authorize access="permitAll()">
+
 	<jstl:out value="${msgName}" />:
 	<jstl:out value="${rendezvous.name}" />
 	<br />
@@ -104,7 +105,7 @@
 
 	<a href="${relatedUrl}"><jstl:out value="${msgRelated}" /></a>
 	<br />
-	
-	</security:authorize>
 
 <a href="rendezvous/list.do"><jstl:out value="${msgReturn}" /></a>
+
+</security:authorize>

@@ -33,13 +33,13 @@ public class AnnouncementUserController extends AbstractController {
 	private AnnouncementService	announcementService;
 
 	@Autowired
-	private RendezvousService	rendezvousService;
-
-	@Autowired
 	private ActorService		actorService;
 
 	@Autowired
 	private UserService			userService;
+
+	@Autowired
+	private RendezvousService	rendezvousService;
 
 
 	//Creation
@@ -77,7 +77,12 @@ public class AnnouncementUserController extends AbstractController {
 			result = this.createEditModelAndView(announcement);
 		else
 			try {
-				this.announcementService.save(announcement);
+				final Announcement saved = this.announcementService.save(announcement);
+				final Rendezvous r = saved.getRendezvous();
+				final Collection<Announcement> announcements = r.getAnnouncements();
+				announcements.add(saved);
+				r.setAnnouncements(announcements);
+				this.rendezvousService.saveInternal(r);
 				result = new ModelAndView("redirect:/announcement/user/list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(announcement, "announcement.commit.error");
@@ -130,13 +135,13 @@ public class AnnouncementUserController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Announcement announcement, final String messageCode) {
 		ModelAndView result;
 		Collection<Rendezvous> rendezvouses;
-		rendezvouses = this.rendezvousService.findAll();
+		rendezvouses = ((User) this.actorService.findByPrincipal()).getRendezvous();
 
 		result = new ModelAndView("announcement/edit");
 		result.addObject("announcement", announcement);
 		result.addObject("message", messageCode);
 		result.addObject("rendezvouses", rendezvouses);
-		result.addObject("requestURI", "announcement/administrator/edit.do");
+		result.addObject("requestURI", "announcement/user/edit.do");
 
 		return result;
 

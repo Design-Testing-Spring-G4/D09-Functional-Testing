@@ -84,6 +84,8 @@ public class UserService {
 		this.userRepository.delete(user);
 	}
 
+	//Ancillary methods
+
 	public Collection<Announcement> announcementsByUser(final User user) {
 		final Collection<Announcement> announcements = new ArrayList<>();
 		for (final Rendezvous r : user.getAttendance())

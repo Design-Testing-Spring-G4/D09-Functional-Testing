@@ -2,8 +2,9 @@
 package repositories;
 
 import java.util.Collection;
+import java.util.List;
 
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,7 +24,7 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 
 	//The top-10 rendezvouses in terms of users who have RSVPd them.
 	@Query("select r from Rendezvous r order by r.attendants.size")
-	Collection<Rendezvous> topTenRendezvous(PageRequest pageRequest);
+	List<Rendezvous> topTenRendezvous(Pageable pageable);
 
 	//The average and the standard deviation of announcements per rendezvous.
 	@Query("select avg(r.announcements.size), stddev(r.announcements.size) from Rendezvous r")
@@ -40,8 +41,4 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	//The average and the standard deviation of the number of questions per rendezvous.
 	@Query("select avg(r.questions.size), stddev(r.questions.size) from Rendezvous r")
 	Double[] avgStddevQuestionsPerRendezvous();
-
-	//The average and the standard deviation of the number of answers to the questions per rendezvous.
-	//@Query("select q from Rendezvous r join r.questions join q.answers")
-	//Double[] avgStddevAnswersPerQuestiosnPerRendezvous();
 }
