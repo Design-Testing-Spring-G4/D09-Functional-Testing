@@ -91,6 +91,30 @@
 		</property>
 	</bean>
 	
+	<bean id="userAccount7" class="security.UserAccount">
+		<property name="username" value="manager1" />
+		<property name="password" value="c240642ddef994358c96da82c0361a58" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount8" class="security.UserAccount">
+		<property name="username" value="manager2" />
+		<property name="password" value="8df5127cd164b5bc2d2b78410a7eea0c" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- Admin beans -->	
 	
 	<bean id="admin" class="domain.Administrator">
@@ -140,6 +164,12 @@
 				<ref bean="answer9" />
 			</list>
 		</property>
+		<property name="creditCards">
+			<list></list>
+		</property>
+		<property name="requests">
+			<list></list>
+		</property>
 	</bean>
 	
 	<bean id="user2" class="domain.User">
@@ -177,6 +207,16 @@
 			<list>
 				<ref bean="answer2" />
 				<ref bean="answer4" />
+			</list>
+		</property>
+		<property name="creditCards">
+			<list>
+				<ref bean="creditCard1" />
+			</list>
+		</property>
+		<property name="requests">
+			<list>
+				<ref bean="request1" />
 			</list>
 		</property>
 	</bean>
@@ -218,6 +258,16 @@
 				<ref bean="answer10" />
 			</list>
 		</property>
+		<property name="creditCards">
+			<list>
+				<ref bean="creditCard2" />
+			</list>
+		</property>
+		<property name="requests">
+			<list>
+				<ref bean="request2" />
+			</list>
+		</property>
 	</bean>
 	
 	
@@ -248,6 +298,12 @@
 		<property name="answers">
 			<list>
 			</list>
+		</property>
+		<property name="creditCards">
+			<list></list>
+		</property>
+		<property name="requests">
+			<list></list>
 		</property>
 	</bean>
 	
@@ -513,6 +569,150 @@
 				<ref bean="question3" />
 				<ref bean="question4" />
 				<ref bean="question5" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Category beans -->
+	
+	<bean id="category1" class="domain.Category">
+		<property name="name" value="Default category" />
+		<property name="description" value="This is the default category for new services, and those not related to any other category." />
+		<property name="parent"><null/></property>
+		<property name="services">
+			<list></list>
+		</property>
+	</bean>
+	
+	<bean id="category2" class="domain.Category">
+		<property name="name" value="Adventures" />
+		<property name="description" value="For exciting experiences." />
+		<property name="parent"><null/></property>
+		<property name="services">
+			<list>
+				<ref bean="service2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="category3" class="domain.Category">
+		<property name="name" value="Safaris" />
+		<property name="description" value="A category for the rendezvouses specifically related to safaris." />
+		<property name="parent" ref="category2"/>
+		<property name="services">
+			<list>
+				<ref bean="service1" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Configuration beans -->
+	
+	<bean id="configuration1" class="domain.Configuration">
+		<property name="companyName" value="Adventure meetups" />
+		<property name="banner" value="https://tinyurl.com/adventure-meetup" />
+		<property name="welcomeEN" value="Your place to organise your adventure meetups!" />
+		<property name="welcomeES" value="Tu sitio para organizar quedadas de aventura" />
+	</bean>
+	
+	<!-- CreditCard beans -->
+	
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holder" value="Juan Pérez López" />
+		<property name="brand" value="MasterCard" />
+		<property name="number" value="5564157826282522" />
+		<property name="expMonth" value="10" />
+		<property name="expYear" value="2020" />
+		<property name="cvv" value="150" />
+	</bean>
+
+	<bean id="creditCard2" class="domain.CreditCard">
+		<property name="holder" value="Jose Moreno Núñez" />
+		<property name="brand" value="VISA" />
+		<property name="number" value="4716665991180313" />
+		<property name="expMonth" value="12" />
+		<property name="expYear" value="2018" />
+		<property name="cvv" value="220" />
+	</bean>
+	
+	<!-- Manager beans -->
+	
+	<bean id="manager1" class="domain.Manager">
+		<property name="name" value="Pearl" />
+		<property name="surname" value="Houston" />
+		<property name="phone" value="138636843" />
+		<property name="address" value="c/ Hamilton 1, Washington" />
+		<property name="email" value="pearl_h@mail.com" />
+		<property name="birthDate" value="11/22/1990" />
+		<property name="userAccount" ref="userAccount7" />
+		<property name="vat" value="1234-asho" />
+		<property name="services">
+			<list>
+				<ref bean="service1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="manager2" class="domain.Manager">
+		<property name="name" value="Hernando" />
+		<property name="surname" value="Cortés" />
+		<property name="phone" value="678352433" />
+		<property name="address" value="Plaza de España 23, Madrid" />
+		<property name="email" value="hcortes@mail.com" />
+		<property name="birthDate" value="10/04/1985" />
+		<property name="userAccount" ref="userAccount8" />
+		<property name="vat" value="432-3652-ae" />
+		<property name="services">
+			<list>
+				<ref bean="service2" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Request beans -->
+	
+	<bean id="request1" class="domain.Request">
+		<property name="creditCard" ref="creditCard1" />
+		<property name="comments" value="" />
+		<property name="user" ref="user2"/>
+		<property name="service" ref="service1" />
+		<property name="rendezvous" ref="rendezvous2" />
+	</bean>
+	
+	<bean id="request2" class="domain.Request">
+		<property name="creditCard" ref="creditCard2" />
+		<property name="comments" value="Urgent." />
+		<property name="user" ref="user3"/>
+		<property name="service" ref="service2" />
+		<property name="rendezvous" ref="rendezvous3" />
+	</bean>
+	
+	<!-- Service beans -->
+	
+	<bean id="service1" class="domain.Service">
+		<property name="name" value="Guided visit" />
+		<property name="description" value="An expert will give you a tour of the area." />
+		<property name="picture" value="http://eskipaper.com/images/savannah-5.jpg" />
+		<property name="cancelled" value="false" />
+		<property name="manager" ref="manager1"/>
+		<property name="category" ref="category3" />
+		<property name="requests">
+			<list>
+				<ref bean="request1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="service2" class="domain.Service">
+		<property name="name" value="Farewell party" />
+		<property name="description" value="A small party to finish the rendezvous." />
+		<property name="picture"><null/></property>
+		<property name="cancelled" value="false" />
+		<property name="manager" ref="manager2"/>
+		<property name="category" ref="category2" />
+		<property name="requests">
+			<list>
+				<ref bean="request2" />
 			</list>
 		</property>
 	</bean>
