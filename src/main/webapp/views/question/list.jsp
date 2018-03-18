@@ -20,31 +20,24 @@
 <%-- Stored message variables --%>
 
 <spring:message code="question.list" var="msgList" />
-<spring:message code="question.question" var="msgQuestion" />
+<spring:message code="question.text" var="msgQuestion" />
 <spring:message code="question.display" var="msgDisplay" />
-<spring:message code="question.editBtn" var="msgEdit" />
+<spring:message code="question.edit" var="msgEdit" />
 <spring:message code="question.delete" var="msgDelete" />
 <spring:message code="question.answer" var="msgAnswer"/>
 <spring:message code="question.return" var="msgReturn"/>
+<spring:message code="question.create" var="msgCreate"/>
 
 <security:authorize access="hasRole('USER')">
 
-<display:table pagesize="5" class="displaytag" name="questions" requestURI="question/user/list.do" id="row">
+<display:table pagesize="5" class="displaytag" name="questions" requestURI="${requestURI}" id="row">
 	
 	<%-- Attributes --%>
 
-	<display:column property="question" title="${msgQuestion}" sortable="true" />
-	
-	<spring:url var="displayUrl" value="question/user/display.do">
-		<spring:param name="questionId" value="${row.id}" />
-	</spring:url>
-
-	<display:column>
-		<a href="${displayUrl}"><jstl:out value="${msgDisplay}" /></a>
-	</display:column>
+	<display:column property="text" title="${msgQuestion}" sortable="true" />
 	
 	<spring:url var="editUrl" value="question/user/edit.do">
-		<spring:param name="questionId" value="${row.id}" />
+		<spring:param name="varId" value="${row.id}" />
 	</spring:url>
 
 	<display:column>
@@ -52,21 +45,22 @@
 	</display:column>
 	
 	<spring:url var="deleteUrl" value="question/user/delete.do">
-		<spring:param name="questionId" value="${row.id}" />
+		<spring:param name="varId" value="${row.id}" />
 	</spring:url>
 
 	<display:column>
 		<a href="${deleteUrl}"><jstl:out value="${msgDelete}" /></a>
 	</display:column>
-	
-	<spring:url var="answerUrl" value="answer/user/create.do">
-		<spring:param name="questionId" value="${row.id}" />
-	</spring:url>
-
-	<display:column>
-		<a href="${answerUrl}"><jstl:out value="${msgAnswer}" /></a>
-	</display:column>
 
 </display:table>
-<br />
+
+<br/>
+<spring:url var="createUrl" value="question/user/create.do">
+	<spring:param name="varId" value="${rendezvousId}" />
+</spring:url>
+	<a href="${createUrl}"><jstl:out value="${msgCreate}" /></a>
+	
+<br/>
+<input type="button" name="return" value="${msgReturn}"
+	onclick="javascript: relativeRedir('rendezvous/user/list.do');" />
 </security:authorize>

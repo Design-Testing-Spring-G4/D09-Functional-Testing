@@ -115,6 +115,18 @@
 		</display:column>
 	</jstl:if>
 	
+	<spring:url var="questionUrl" value="question/user/list.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
+	
+	<jstl:if test="${requestURI == 'rendezvous/user/list.do'}">
+		<display:column>
+			<jstl:if test="${row.finalMode == false && row.deleted == false && row.creator.id == userId}">
+				<a href="${questionUrl}"><jstl:out value="${questions}" /></a>
+			</jstl:if>
+		</display:column>
+	</jstl:if>
+	
 	<spring:url var="linkUrl" value="rendezvous/user/link.do">
 		<spring:param name="varId" value="${row.id}" />
 	</spring:url>

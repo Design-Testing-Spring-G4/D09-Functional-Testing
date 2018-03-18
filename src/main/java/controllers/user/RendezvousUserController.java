@@ -1,6 +1,7 @@
 
 package controllers.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.RendezvousService;
 import controllers.AbstractController;
+import domain.Question;
 import domain.Rendezvous;
 import domain.User;
 
@@ -27,15 +29,24 @@ public class RendezvousUserController extends AbstractController {
 	//Services
 
 	@Autowired
-	private RendezvousService	rendezvousService;
+	private RendezvousService		rendezvousService;
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
 
 	//Ancillary attributes
 
-	private Rendezvous			current;
+	private Rendezvous				current;
+	private Collection<Question>	rsvpQuestions;
 
+
+	public Collection<Question> getRsvpQuestions() {
+		return this.rsvpQuestions;
+	}
+
+	public void setRsvpQuestions(final Collection<Question> rsvpQuestions) {
+		this.rsvpQuestions = rsvpQuestions;
+	}
 
 	public Rendezvous getCurrent() {
 		return this.current;
@@ -158,15 +169,25 @@ public class RendezvousUserController extends AbstractController {
 	@RequestMapping(value = "/rsvp", method = RequestMethod.GET)
 	public ModelAndView rsvp(@Valid final int varId) {
 		ModelAndView result;
-		Rendezvous r;
+		Rendezvous rendezvous;
+		Collection<Question> questions = new ArrayList<Question>();
 
-		r = this.rendezvousService.findOne(varId);
-		this.rendezvousService.addRendezvous(r);
-		result = new ModelAndView("redirect:/rendezvous/list.do");
+		rendezvous = this.rendezvousService.findOne(varId);
+		if (this.getCurrent() != rendezvous) {
+			this.setCurrent(rendezvous);
+			this.setRsvpQuestions(rendezvous.getQuestions());
+		}
+		questions = this.getRsvpQuestions();
+		if (!this.getRsvpQuestions().isEmpty()) {
+			final Question question = questions.iterator().next();
+			result = new ModelAndView("redirect:/answer/user/create.do?varId=" + question.getId());
+			questions.remove(question);
+			this.setRsvpQuestions(questions);
+		} else
+			result = new ModelAndView("redirect:/rendezvous/user/list.do");
 
 		return result;
 	}
-
 	//Linking
 
 	@RequestMapping(value = "/link", method = RequestMethod.GET)

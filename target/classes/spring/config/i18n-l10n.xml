@@ -30,6 +30,7 @@
 		<value>/views/announcement/messages</value>
 		<value>/views/rendezvous/messages</value>
 		<value>/views/legislation/messages</value>
+		<value>/views/answer/messages</value>
 	</util:list>
 
 </beans>

@@ -19,25 +19,25 @@
 
 <%-- Stored message variables --%>
 
-<spring:message code="question.edit" var="msgEdit" />
-<spring:message code="question.question" var="msgQuestion" />
+<spring:message code="question.text" var="msgQuestion" />
 <spring:message code="question.save" var="msgSave" />
 <spring:message code="question.cancel" var="msgCancel" />
 
 <security:authorize access="hasRole('USER')">
 
-<form:form action="${requestURI}" modelAttribute="question">
+<form:form action="${requestURI}" modelAttribute="modelQuestion">
 
 	<%-- Form fields --%>
 	
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	<form:hidden path="rendezvous" />
 	
-		<form:label path="question">
+	<form:label path="text">
 		<jstl:out value="${msgQuestion}" />:
 	</form:label>
-			<form:input path="question" />
-			<form:errors cssClass="error" path="question" />
+		<form:input path="text" />
+		<form:errors cssClass="error" path="text" />
 	<br /><br />
 	
 	<%-- Buttons --%>
@@ -45,7 +45,7 @@
 	<input type="submit" name="save" value="${msgSave}">
 	
 	<input type="button" name="cancel" value="${msgCancel}"
-			onclick="javascript: relativeRedir('question/list.do');" />
+			onclick="javascript: relativeRedir('rendezvous/user/list.do');" />
 
 </form:form>
 

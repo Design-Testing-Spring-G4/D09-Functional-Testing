@@ -55,28 +55,36 @@
 	
 	<spring:url var="rendezvousUrl"
 		value="rendezvous/rendezvousUserList.do">
-		<spring:param name="varId"
-			value="${row.id}"/>
+		<spring:param name="varId" value="${row.id}"/>
 	</spring:url>
 	
 	<display:column>
 	<a href="${rendezvousUrl}"><jstl:out value="${rendezvouses}" /></a>
 	</display:column>
 
-	
 	<spring:url var="displayUrl"
 		value="user/display.do">
-		<spring:param name="varId"
-			value="${row.id}"/>
+		<spring:param name="varId" value="${row.id}"/>
 	</spring:url>
 	
 	<display:column>
 	<a href="${displayUrl}"><jstl:out value="${msgDisplay}" /></a>
 	</display:column>
 	
-	
+	<jstl:if test="${rendezvousId != 0}">
+		<spring:url var="answerUrl"
+			value="answer/list.do">
+			<spring:param name="varId" value="${rendezvousId}"/>
+			<spring:param name="var2Id" value="${row.id}"/>
+		</spring:url>
+		
+		<display:column>
+		<a href="${answerUrl}"><jstl:out value="${answers}" /></a>
+		</display:column>
+	</jstl:if>
 	
 </display:table>
+
 <input type="button" name="return" value="${msgReturn}"
 		onclick="javascript: relativeRedir('welcome/index.do');" />
 		

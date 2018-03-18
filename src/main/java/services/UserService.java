@@ -75,6 +75,13 @@ public class UserService {
 		return u;
 	}
 
+	//Saving method for internal processes.
+	public User saveInternal(final User user) {
+		Assert.notNull(user);
+		final User u = this.userRepository.save(user);
+		return u;
+	}
+
 	public void delete(final User user) {
 		Assert.notNull(user);
 

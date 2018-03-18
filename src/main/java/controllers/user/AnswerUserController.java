@@ -16,9 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.AnswerService;
+import services.QuestionService;
+import services.RendezvousService;
+import services.UserService;
 import controllers.AbstractController;
 import domain.Answer;
-import domain.Rendezvous;
+import domain.Question;
 import domain.User;
 
 @Controller
@@ -28,38 +31,32 @@ public class AnswerUserController extends AbstractController {
 	//Services
 
 	@Autowired
-	private ActorService	actorService;
+	private AnswerService		answerService;
 
 	@Autowired
-	private AnswerService	answerService;
+	private QuestionService		questionService;
 
+	@Autowired
+	private ActorService		actorService;
 
-	//Creation
+	@Autowired
+	private UserService			userService;
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
-		final ModelAndView result;
-		Collection<Answer> answers;
-		User user;
+	@Autowired
+	private RendezvousService	rendezvousService;
 
-		user = (User) this.actorService.findByPrincipal();
-		answers = user.getAnswers();
-
-		result = new ModelAndView("answer/list");
-		result.addObject("answers", answers);
-		result.addObject("requestURI", "answer/user/list.do");
-
-		return result;
-	}
 
 	//Creation
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam final int varId, final int var2Id) {
 		final ModelAndView result;
-		Answer answer;
+		final Answer answer;
+		Question question;
 
-		answer = this.answerService.create();
+		question = this.questionService.findOne(varId);
+
+		answer = this.answerService.create(question.getId());
 		result = this.createEditModelAndView(answer);
 
 		return result;
@@ -82,13 +79,18 @@ public class AnswerUserController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final Answer answer, final BindingResult binding) {
 		ModelAndView result;
+		final User user;
 
+		user = (User) this.actorService.findByPrincipal();
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(answer);
 		else
 			try {
-				this.answerService.save(answer);
-				result = new ModelAndView("redirect:/answer/user/list.do");
+				final Answer saved = this.answerService.save(answer);
+				final Collection<Answer> answers = user.getAnswers();
+				answers.add(saved);
+				this.userService.save(user);
+				result = new ModelAndView("redirect:/rendezvous/user/rsvp.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(answer, "answer.commit.error");
 			}
@@ -120,15 +122,11 @@ public class AnswerUserController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Answer answer, final String messageCode) {
 		ModelAndView result;
-		Collection<Rendezvous> rendezvouses;
 
-		rendezvouses = ((User) this.actorService.findByPrincipal()).getAttendance();
-
-		result = new ModelAndView("rendezvous/edit");
+		result = new ModelAndView("answer/edit");
 		result.addObject("answer", answer);
-		result.addObject("rendezvouses", rendezvouses);
 		result.addObject("message", messageCode);
-		result.addObject("requestURI", "rendezvous/user/edit.do");
+		result.addObject("requestURI", "answer/user/edit.do");
 
 		return result;
 

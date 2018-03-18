@@ -30,6 +30,7 @@
 		<value>/views/rendezvous/tiles.xml</value>
 		<value>/views/legislation/tiles.xml</value>
 		<value>/views/comment/tiles.xml</value>
+		<value>/views/answer/tiles.xml</value>
 	</util:list>
 
 </beans>

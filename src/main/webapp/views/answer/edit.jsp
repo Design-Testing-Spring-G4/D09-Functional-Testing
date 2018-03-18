@@ -21,6 +21,7 @@
 
 <spring:message code="answer.edit" var="msgEdit" />
 <spring:message code="answer.answer" var="msgAnswer" />
+<spring:message code="answer.question" var="question" />
 <spring:message code="answer.save" var="msgSave" />
 <spring:message code="answer.cancel" var="msgCancel" />
 
@@ -32,6 +33,10 @@
 	
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	
+	<form:label path="question">
+		<jstl:out value="${question}" />:<jstl:out value="question.text" />
+	</form:label>
 	
 		<form:label path="answer">
 		<jstl:out value="${msgAnswer}" />:

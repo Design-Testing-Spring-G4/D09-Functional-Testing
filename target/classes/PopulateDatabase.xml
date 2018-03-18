@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <!-- 
  * PopulateDatabase.xml
  *
@@ -324,23 +322,28 @@
 	<!-- Question beans -->
 	
 	<bean id="question1" class="domain.Question">
-		<property name="question" value="What would you like to do during the rendezvous?" />
+		<property name="text" value="What would you like to do during the rendezvous?" />
+		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
 	<bean id="question2" class="domain.Question">
-		<property name="question" value="If you could bring people, how many would you bring?" />
+		<property name="text" value="If you could bring people, how many would you bring?" />
+		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
 	<bean id="question3" class="domain.Question">
-		<property name="question" value="Is the idea interesting enough?" />
+		<property name="text" value="Is the idea interesting enough?" />
+		<property name="rendezvous" ref="rendezvous3" />
 	</bean>
 	
 	<bean id="question4" class="domain.Question">
-		<property name="question" value="Test question, write anything." />
+		<property name="text" value="Test question, write anything." />
+		<property name="rendezvous" ref="rendezvous3" />
 	</bean>
 	
 	<bean id="question5" class="domain.Question">
-		<property name="question" value="Alternative locations?" />
+		<property name="text" value="Alternative locations?" />
+		<property name="rendezvous" ref="rendezvous3" />
 	</bean>
 	
 	<!-- Answer beans -->

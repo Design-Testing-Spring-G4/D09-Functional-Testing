@@ -87,6 +87,7 @@ public class UserController extends AbstractController {
 
 		result = new ModelAndView("user/list");
 		result.addObject("users", users);
+		result.addObject("rendezvousId", 0);
 		result.addObject("requestURI", "user/list.do");
 
 		return result;
@@ -101,6 +102,7 @@ public class UserController extends AbstractController {
 
 		result = new ModelAndView("user/list");
 		result.addObject("users", users);
+		result.addObject("rendezvousId", varId);
 		result.addObject("requestURI", "user/list.do");
 
 		return result;

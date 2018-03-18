@@ -24,16 +24,19 @@
 <spring:message code="answer.question" var="msgQuestion" />
 <spring:message code="answer.return" var="msgReturn"/>
 
-<security:authorize access="hasRole('USER')">
+<security:authorize access="permitAll">
 
-<display:table pagesize="5" class="displaytag" name="answers" requestURI="answer/user/list.do" id="row">
+<display:table pagesize="5" class="displaytag" name="answers" requestURI="${requestURI}" id="row">
 	
 	<%-- Attributes --%>
 	
-	<display:column property="question" title="${msgQuestion}" sortable="true" />
+	<display:column property="question.text" title="${msgQuestion}" sortable="true" />
 
 	<display:column property="answer" title="${msgAnswer}" sortable="true" />
 
 </display:table>
+
 <br />
+<input type="button" name="return" value="${msgReturn}"
+		onclick="javascript: relativeRedir('rendezvous/list.do');" />
 </security:authorize>

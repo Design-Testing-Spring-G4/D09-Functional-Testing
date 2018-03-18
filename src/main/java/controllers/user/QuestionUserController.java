@@ -14,22 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
 import services.QuestionService;
 import services.RendezvousService;
 import controllers.AbstractController;
 import domain.Question;
 import domain.Rendezvous;
-import domain.User;
 
 @Controller
 @RequestMapping("question/user")
 public class QuestionUserController extends AbstractController {
 
 	//Services
-
-	@Autowired
-	private ActorService		actorService;
 
 	@Autowired
 	private RendezvousService	rendezvousService;
@@ -41,16 +36,17 @@ public class QuestionUserController extends AbstractController {
 	//Creation
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam final int varId) {
 		final ModelAndView result;
 		Collection<Question> questions;
-		User user;
+		Rendezvous rendezvous;
 
-		user = (User) this.actorService.findByPrincipal();
-		questions = this.rendezvousService.questionsByUser(user);
+		rendezvous = this.rendezvousService.findOne(varId);
+		questions = rendezvous.getQuestions();
 
 		result = new ModelAndView("question/list");
 		result.addObject("questions", questions);
+		result.addObject("rendezvousId", varId);
 		result.addObject("requestURI", "question/user/list.do");
 
 		return result;
@@ -59,11 +55,11 @@ public class QuestionUserController extends AbstractController {
 	//Creation
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam final int varId) {
 		final ModelAndView result;
 		Question question;
 
-		question = this.questionService.create();
+		question = this.questionService.create(varId);
 		result = this.createEditModelAndView(question);
 
 		return result;
@@ -92,23 +88,27 @@ public class QuestionUserController extends AbstractController {
 		else
 			try {
 				this.questionService.save(question);
-				result = new ModelAndView("redirect:/question/user/list.do");
+				result = new ModelAndView("redirect:/rendezvous/user/list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(question, "question.commit.error");
 			}
 		return result;
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@Valid final Question question, final BindingResult binding) {
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam final int varId) {
 		ModelAndView result;
+		Question question;
 
+		question = this.questionService.findOne(varId);
+		Assert.notNull(question);
 		try {
 			this.questionService.delete(question);
-			result = new ModelAndView("redirect:/question/user/list.do");
+			result = new ModelAndView("redirect:/rendezvous/user/list.do");
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(question, "question.commit.error");
+			result = new ModelAndView("redirect:/rendezvous/user/list.do");
 		}
+
 		return result;
 	}
 
@@ -124,15 +124,11 @@ public class QuestionUserController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Question question, final String messageCode) {
 		ModelAndView result;
-		Collection<Rendezvous> rendezvouses;
 
-		rendezvouses = ((User) this.actorService.findByPrincipal()).getRendezvous();
-
-		result = new ModelAndView("rendezvous/edit");
-		result.addObject("question", question);
-		result.addObject("rendezvouses", rendezvouses);
+		result = new ModelAndView("question/edit");
+		result.addObject("modelQuestion", question);
 		result.addObject("message", messageCode);
-		result.addObject("requestURI", "rendezvous/user/edit.do");
+		result.addObject("requestURI", "question/user/edit.do");
 
 		return result;
 

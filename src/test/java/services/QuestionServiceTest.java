@@ -35,14 +35,14 @@ public class QuestionServiceTest extends AbstractTest {
 		this.authenticate("user1");
 
 		//Using create() to initialise a new entity. Necessary Id's taken from populated database.
-		final Question question = this.questionService.create();
+		final Question question = this.questionService.create(2555);
 
-		question.setQuestion("Estara bien esto?");
+		question.setText("Estara bien esto?");
 		System.out.println(question);
 
 		//Saving entity to database and confirming it exists with findAll().
 		final Question saved = this.questionService.save(question);
-		System.out.println("question saved: " + saved + saved.getQuestion());
+		System.out.println("question saved: " + saved + saved.getText());
 		final Collection<Question> questions = this.questionService.findAll();
 		Assert.isTrue(questions.contains(saved));
 	}
