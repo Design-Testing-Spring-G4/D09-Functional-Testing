@@ -161,13 +161,6 @@
 		<property name="creditCards">
 			<list></list>
 		</property>
-		<property name="requests">
-			<list>
-				<ref bean="request3" />
-				<ref bean="request4" />
-				<ref bean="request5" />
-			</list>
-		</property>
 	</bean>
 
 	<bean id="user2" class="domain.User">
@@ -210,11 +203,6 @@
 		<property name="creditCards">
 			<list>
 				<ref bean="creditCard1" />
-			</list>
-		</property>
-		<property name="requests">
-			<list>
-				<ref bean="request1" />
 			</list>
 		</property>
 	</bean>
@@ -261,11 +249,6 @@
 				<ref bean="creditCard2" />
 			</list>
 		</property>
-		<property name="requests">
-			<list>
-				<ref bean="request1" />
-			</list>
-		</property>
 	</bean>
 
 
@@ -298,9 +281,6 @@
 			</list>
 		</property>
 		<property name="creditCards">
-			<list></list>
-		</property>
-		<property name="requests">
 			<list></list>
 		</property>
 	</bean>
@@ -499,6 +479,7 @@
 		</property>
 		<property name="requests">
 			<list>
+				<ref bean="request3" />
 			</list>
 		</property>
 	</bean>
@@ -539,6 +520,8 @@
 		</property>
 		<property name="requests">
 			<list>
+				<ref bean="request1" />
+				<ref bean="request4" />
 			</list>
 		</property>
 	</bean>
@@ -584,6 +567,9 @@
 		</property>
 		<property name="requests">
 			<list>
+				<ref bean="request2" />
+				<ref bean="request5" />
+				<ref bean="request6" />
 			</list>
 		</property>
 	</bean>
@@ -700,15 +686,13 @@
 	<bean id="request1" class="domain.Request">
 		<property name="creditCard" ref="creditCard1" />
 		<property name="comments" value="" />
-		<property name="user" ref="user2" />
 		<property name="service" ref="service1" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 
 	<bean id="request2" class="domain.Request">
 		<property name="creditCard" ref="creditCard2" />
-		<property name="comments" value="Urgent." />
-		<property name="user" ref="user3" />
+		<property name="comments" value="Nothing" />
 		<property name="service" ref="service2" />
 		
 		<property name="rendezvous" ref="rendezvous3" />
@@ -716,28 +700,31 @@
 
 	<bean id="request3" class="domain.Request">
 		<property name="creditCard" ref="creditCard1" />
-		<property name="comments" value="Urgent." />
-		<property name="user" ref="user1" />
+		<property name="comments" value="Hello" />
 		<property name="service" ref="service3" />
 		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 
 	<bean id="request4" class="domain.Request">
 		<property name="creditCard" ref="creditCard1" />
-		<property name="comments" value="Urgent." />
-		<property name="user" ref="user1" />
+		<property name="comments" value="Hi" />
 		<property name="service" ref="service4" />
 		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 
 	<bean id="request5" class="domain.Request">
 		<property name="creditCard" ref="creditCard2" />
-		<property name="comments" value="Urgent." />
-		<property name="user" ref="user1" />
+		<property name="comments" value="Fast" />
+		<property name="service" ref="service4" />
+		<property name="rendezvous" ref="rendezvous3" />
+	</bean>
+	
+	<bean id="request6" class="domain.Request">
+		<property name="creditCard" ref="creditCard2" />
+		<property name="comments" value="XD" />
 		<property name="service" ref="service3" />
 		<property name="rendezvous" ref="rendezvous3" />
 	</bean>
-
 
 	<!-- Service beans -->
 
@@ -745,7 +732,7 @@
 		<property name="name" value="Guided visit" />
 		<property name="description" value="An expert will give you a tour of the area." />
 		<property name="picture" value="http://eskipaper.com/images/savannah-5.jpg" />
-		<property name="cancelled" value="false" />
+		<property name="cancelled" value="true" />
 		<property name="manager" ref="manager1" />
 		<property name="category" ref="category3" />
 		<property name="requests">
@@ -761,7 +748,7 @@
 		<property name="picture">
 			<null />
 		</property>
-		<property name="cancelled" value="false" />
+		<property name="cancelled" value="true" />
 		<property name="manager" ref="manager1" />
 		<property name="category" ref="category2" />
 		<property name="requests">
@@ -783,7 +770,7 @@
 		<property name="requests">
 			<list>
 				<ref bean="request3" />
-				<ref bean="request5" />
+				<ref bean="request6" />
 			</list>
 		</property>
 	</bean>
@@ -794,12 +781,13 @@
 		<property name="picture">
 			<null />
 		</property>
-		<property name="cancelled" value="false" />
+		<property name="cancelled" value="true" />
 		<property name="manager" ref="manager2" />
 		<property name="category" ref="category3" />
 		<property name="requests">
 			<list>
 				<ref bean="request4" />	
+				<ref bean="request5" />
 			</list>
 		</property>
 	</bean>
