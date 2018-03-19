@@ -16,10 +16,12 @@ import org.springframework.util.Assert;
 import repositories.AnnouncementRepository;
 import repositories.CommentRepository;
 import repositories.RendezvousRepository;
+import repositories.RequestRepository;
 import domain.Announcement;
 import domain.Comment;
 import domain.Question;
 import domain.Rendezvous;
+import domain.Request;
 import domain.User;
 
 @Service
@@ -34,6 +36,9 @@ public class RendezvousService {
 
 	@Autowired
 	private UserService				userService;
+
+	@Autowired
+	private RequestRepository		requestRepository;
 
 	@Autowired
 	private AnnouncementRepository	announcementRepository;
@@ -52,6 +57,7 @@ public class RendezvousService {
 		r.setAnnouncements(new ArrayList<Announcement>());
 		r.setComments(new ArrayList<Comment>());
 		r.setQuestions(new ArrayList<Question>());
+		r.setRequests(new ArrayList<Request>());
 		return r;
 
 	}
@@ -89,12 +95,16 @@ public class RendezvousService {
 		if (!(r.getComments()).isEmpty())
 			for (final Comment c : r.getComments())
 				this.commentRepository.delete(c);
+		if (!(r.getRequests()).isEmpty())
+			for (final Request c : r.getRequests())
+				this.requestRepository.delete(c);
 		//		if (!(r.getQuestions()).isEmpty())
 		//			for (final Question q : r.getQuestions())
 		//				this.questionRepository.delete(q);
 		for (final Rendezvous x : this.rendezvousRepository.findAll())
 			if (x.getLinks().contains(r))
 				x.getLinks().remove(r);
+
 		this.rendezvousRepository.delete(r);
 	}
 

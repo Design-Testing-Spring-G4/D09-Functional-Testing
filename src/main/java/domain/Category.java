@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -19,14 +20,14 @@ public class Category extends DomainEntity {
 
 	//Attributes
 
-	private String				name;
-	private String				description;
+	private String					name;
+	private String					description;
 
 	//Relationships
 
-	private Category			parent;
-	//	private Collection<Category>	children;
-	private Collection<Service>	services;
+	private Category				parent;
+	private Collection<Category>	children;
+	private Collection<Service>		services;
 
 
 	//Getters
@@ -46,9 +47,10 @@ public class Category extends DomainEntity {
 		return this.parent;
 	}
 
-	//	public Collection<Category> getChildren() {
-	//		return this.children;
-	//	}
+	@ElementCollection
+	public Collection<Category> getChildren() {
+		return this.children;
+	}
 
 	@Valid
 	@NotNull
@@ -71,9 +73,9 @@ public class Category extends DomainEntity {
 		this.parent = parent;
 	}
 
-	//	public void setChildren(final Collection<Integer> children) {
-	//		this.children = children;
-	//	}
+	public void setChildren(final Collection<Category> children) {
+		this.children = children;
+	}
 
 	public void setServices(final Collection<Service> services) {
 		this.services = services;

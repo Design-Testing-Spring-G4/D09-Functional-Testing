@@ -24,7 +24,6 @@ public class User extends Actor {
 	private Collection<Announcement>	announcements;
 	private Collection<Comment>			comments;
 	private Collection<Answer>			answers;
-	private Collection<Request>			requests;
 
 
 	//Getters
@@ -71,13 +70,6 @@ public class User extends Actor {
 		return this.creditCards;
 	}
 
-	@Valid
-	@NotNull
-	@OneToMany(mappedBy = "user")
-	public Collection<Request> getRequests() {
-		return this.requests;
-	}
-
 	//Setters
 
 	public void setRendezvous(final Collection<Rendezvous> rendezvous) {
@@ -104,7 +96,4 @@ public class User extends Actor {
 		this.creditCards = creditCards;
 	}
 
-	public void setRequests(final Collection<Request> requests) {
-		this.requests = requests;
-	}
 }

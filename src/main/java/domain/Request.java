@@ -16,7 +16,6 @@ public class Request extends DomainEntity {
 
 	//Relationships
 
-	private User		user;
 	private Service		service;
 	private Rendezvous	rendezvous;
 
@@ -30,13 +29,6 @@ public class Request extends DomainEntity {
 
 	public String getComments() {
 		return this.comments;
-	}
-
-	@Valid
-	@NotNull
-	@ManyToOne(optional = false)
-	public User getUser() {
-		return this.user;
 	}
 
 	@Valid
@@ -61,10 +53,6 @@ public class Request extends DomainEntity {
 
 	public void setComments(final String comments) {
 		this.comments = comments;
-	}
-
-	public void setUser(final User user) {
-		this.user = user;
 	}
 
 	public void setService(final Service service) {

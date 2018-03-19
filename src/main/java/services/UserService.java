@@ -16,6 +16,7 @@ import security.UserAccount;
 import domain.Announcement;
 import domain.Answer;
 import domain.Comment;
+import domain.CreditCard;
 import domain.Rendezvous;
 import domain.User;
 
@@ -50,6 +51,7 @@ public class UserService {
 		u.setAnnouncements(new ArrayList<Announcement>());
 		u.setComments(new ArrayList<Comment>());
 		u.setAnswers(new ArrayList<Answer>());
+		u.setCreditCards(new ArrayList<CreditCard>());
 
 		return u;
 	}
