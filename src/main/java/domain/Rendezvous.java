@@ -39,6 +39,7 @@ public class Rendezvous extends DomainEntity {
 	private Collection<Announcement>	announcements;
 	private Collection<Comment>			comments;
 	private Collection<Question>		questions;
+	private Collection<Request>			requests;
 
 
 	//Getters
@@ -125,6 +126,13 @@ public class Rendezvous extends DomainEntity {
 		return this.comments;
 	}
 
+	@Valid
+	@NotNull
+	@OneToMany
+	public Collection<Request> getRequests() {
+		return this.requests;
+	}
+
 	//Setters
 
 	public void setName(final String name) {
@@ -181,5 +189,9 @@ public class Rendezvous extends DomainEntity {
 
 	public void setComments(final Collection<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public void setRequests(final Collection<Request> requests) {
+		this.requests = requests;
 	}
 }
