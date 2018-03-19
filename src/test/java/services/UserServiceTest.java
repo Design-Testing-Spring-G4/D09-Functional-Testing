@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.User;
+import domain.Administrator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class UserServiceTest extends AbstractTest {
@@ -25,27 +25,42 @@ public class UserServiceTest extends AbstractTest {
 	private UserService	userService;
 
 
-	//Tests
+	//Test template
 
-	@Test
-	public void testCreateUser() {
-		//Using create() to initialise a new entity.
-		final User u = this.userService.create();
+	protected void Template(final String username, final Class<?> expected) {
+		Class<?> caught = null;
 
-		u.setName("Sergio");
-		u.setSurname("Morales");
-		u.setPhone("649514875");
-		u.setAddress("c/test, 1");
-		u.setEmail("testddd@mail.com");
-		u.getUserAccount().setUsername("Probador");
-		u.getUserAccount().setPassword("asdfa54548");
+		try {
+			this.authenticate(username);
 
-		System.out.println(u.getName() + u.getSurname() + u.getPhone() + u.getAddress() + u.getEmail() + u.getUserAccount() + u.getRendezvous() + u.getAttendance() + u.getAnnouncements() + u.getComments() + u.getAnswers());
-		final User a = this.userService.save(u);
+			this.unauthenticate();
+		} catch (final Throwable oops) {
 
-		System.out.println("guardado" + a.getName() + a.getSurname() + a.getPhone() + a.getAddress() + a.getEmail() + a.getUserAccount() + a.getRendezvous() + a.getAttendance() + a.getAnnouncements() + a.getComments() + a.getAnswers());
-		final User bbdd = this.userService.findOne(a.getId());
-		Assert.notNull(bbdd);
+			caught = oops.getClass();
+
+		}
+
+		this.checkExceptions(expected, caught);
 	}
 
+	//Driver for multiple tests under the same template.
+
+	@Test
+	public void Driver() {
+
+		final Object testingData[][] = {
+					
+			//Test #01: . Expected true.
+			{, null},
+				
+			//Test #02: . Expected false.
+			{, IllegalArgumentException.class},
+				
+			//Test #03: . Expected false.
+			{, IllegalArgumentException.class}
+
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.Template(() testingData[i][0], (Class<?>) testingData[i][]);
+	}
 }

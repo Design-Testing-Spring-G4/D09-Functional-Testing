@@ -1,8 +1,6 @@
 
 package services;
 
-import java.util.Collection;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Rendezvous;
+import domain.Administrator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class RendezvousServiceTest extends AbstractTest {
@@ -27,46 +25,63 @@ public class RendezvousServiceTest extends AbstractTest {
 	private RendezvousService	rendezvousService;
 
 
-	//Setting up the authority to execute services.
-	@Test
-	public void testCreateRendezvous() {
-		//Setting up the authority to execute services.
-		this.authenticate("user1");
+	//Test template
 
-		//Using create() to initialise a new entity. Necessary Id's taken from populated database.
-		final Rendezvous rendezvous = this.rendezvousService.create();
+	protected void Template(final String username, final Class<?> expected) {
+		Class<?> caught = null;
 
-		rendezvous.setName("Rendezvous Prueba");
-		rendezvous.setDescription("Esto es una prueba");
-		rendezvous.setPicture("dsfasdfasdfafda");
-		rendezvous.setCoordinates("+90, -180");
+		try {
+			this.authenticate(username);
 
-		//Saving entity to database and confirming it exists with findAll().
-		final Rendezvous saved = this.rendezvousService.save(rendezvous);
-		System.out.println(saved);
+			this.unauthenticate();
+		} catch (final Throwable oops) {
 
-		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findAll();
-		Assert.isTrue(rendezvouses.contains(saved));
+			caught = oops.getClass();
+
+		}
+
+		this.checkExceptions(expected, caught);
 	}
 
+	//Driver for multiple tests under the same template.
+
 	@Test
-	public void testListDeleteRendezvous() {
-		//Setting up the authority to execute services.
-		this.authenticate("user1");
+	public void Driver() {
 
-		//We retrieve a list of all notes, and obtain the Id of one of them.
-		Collection<Rendezvous> rendezvouses = this.rendezvousService.findAll();
-		final int id = rendezvouses.iterator().next().getId();
+		final Object testingData[][] = {
+					
+			//Test #01: . Expected true.
+			{, null},
+				
+			//Test #02: . Expected false.
+			{, IllegalArgumentException.class},
+				
+			//Test #03: . Expected false.
+			{, IllegalArgumentException.class},
+			
+			//Test #04: . Expected false.
+			{, IllegalArgumentException.class},
+			
+			//Test #05: . Expected false.
+			{, IllegalArgumentException.class},
+			
+			//Test #06: . Expected false.
+			{, IllegalArgumentException.class},
+			
+			//Test #07: . Expected false.
+			{, IllegalArgumentException.class},
+			
+			//Test #08: . Expected false.
+			{, IllegalArgumentException.class},
+			
+			//Test #09: . Expected false.
+			{, IllegalArgumentException.class},
+			
+			//Test #10: . Expected false.
+			{, IllegalArgumentException.class}
 
-		//Using findOne() to retrieve a particular entity and verifying it.
-		final Rendezvous rendezvous = this.rendezvousService.findOne(id);
-		Assert.notNull(id);
-
-		//Using delete() to delete the entity we retrieved.
-		this.rendezvousService.delete(rendezvous);
-
-		//Verifying the entity has been removed from the database.
-		rendezvouses = this.rendezvousService.findAll();
-		Assert.isTrue(!rendezvouses.contains(rendezvous));
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.Template(() testingData[i][0], (Class<?>) testingData[i][]);
 	}
 }

@@ -7,22 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Administrator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
 })
 @Transactional
-public class AdministratorServiceTest extends AbstractTest {
+public class ManagerServiceTest extends AbstractTest {
 
 	//Service under test
 
 	@Autowired
-	private AdministratorService	administratorService;
+	private ManagerService	managerService;
 
 
 	//Test template

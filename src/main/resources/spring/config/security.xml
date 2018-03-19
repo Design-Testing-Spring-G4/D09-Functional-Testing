@@ -40,6 +40,9 @@
 		<security:intercept-url pattern="/rendezvous/**" access="permitAll" requires-channel="https"/>
 		<security:intercept-url pattern="/answer/**" access="permitAll" requires-channel="https"/>
 		<security:intercept-url pattern="/announcement/**" access="permitAll" requires-channel="https"/>
+		<security:intercept-url pattern="/category/**" access="permitAll" requires-channel="https"/>
+		<security:intercept-url pattern="/manager/**" access="permitAll" requires-channel="https"/>
+		<security:intercept-url pattern="/service/**" access="permitAll" requires-channel="https"/>
 		
 		<security:intercept-url pattern="/comment/**" access="isAuthenticated()" requires-channel="https"/>
 		
@@ -50,11 +53,18 @@
 		<security:intercept-url pattern="/administrator/**" access="hasRole('ADMIN')" requires-channel="https"/>
 		<security:intercept-url pattern="/announcement/administrator/**" access="hasRole('ADMIN')" requires-channel="https"/>
 		<security:intercept-url pattern="/rendezvous/administrator/**" access="hasRole('ADMIN')" requires-channel="https"/>
+		<security:intercept-url pattern="/category/administrator/**" access="hasRole('ADMIN')" requires-channel="https"/>
+		<security:intercept-url pattern="/configuration/**" access="hasRole('ADMIN')" requires-channel="https"/>
+		<security:intercept-url pattern="/service/administrator/**" access="hasRole('ADMIN')" requires-channel="https"/>
 		
 		<security:intercept-url pattern="/announcement/user/**" access="hasRole('USER')" requires-channel="https"/>
 		<security:intercept-url pattern="/answer/user/**" access="hasRole('USER')" requires-channel="https"/>
 		<security:intercept-url pattern="/question/user/**" access="hasRole('USER')" requires-channel="https"/>
 		<security:intercept-url pattern="/rendezvous/user/**" access="hasRole('USER')" requires-channel="https"/>
+		<security:intercept-url pattern="/request/user/**" access="hasRole('USER')" requires-channel="https"/>
+		<security:intercept-url pattern="/service/user/**" access="hasRole('USER')" requires-channel="https"/>
+		
+		<security:intercept-url pattern="/service/manager/**" access="hasRole('MANAGER')" requires-channel="https"/>
 		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" requires-channel="https"/>
 

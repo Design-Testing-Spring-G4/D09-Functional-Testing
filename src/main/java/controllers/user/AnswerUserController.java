@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.AnswerService;
 import services.QuestionService;
-import services.RendezvousService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Answer;
@@ -31,19 +30,16 @@ public class AnswerUserController extends AbstractController {
 	//Services
 
 	@Autowired
-	private AnswerService		answerService;
+	private AnswerService	answerService;
 
 	@Autowired
-	private QuestionService		questionService;
+	private QuestionService	questionService;
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService	actorService;
 
 	@Autowired
-	private UserService			userService;
-
-	@Autowired
-	private RendezvousService	rendezvousService;
+	private UserService		userService;
 
 
 	//Creation

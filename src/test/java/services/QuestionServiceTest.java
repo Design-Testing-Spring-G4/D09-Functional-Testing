@@ -1,8 +1,6 @@
 
 package services;
 
-import java.util.Collection;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Question;
+import domain.Administrator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+	"classpath:spring/junit.xml"
 })
 @Transactional
 public class QuestionServiceTest extends AbstractTest {
@@ -27,48 +25,42 @@ public class QuestionServiceTest extends AbstractTest {
 	private QuestionService	questionService;
 
 
-	//Setting up the authority to execute services.
+	//Test template
 
-	@Test
-	public void testCreateQuestion() {
-		//Setting up the authority to execute services.
-		this.authenticate("user1");
+	protected void Template(final String username, final Class<?> expected) {
+		Class<?> caught = null;
 
-		//Using create() to initialise a new entity. Necessary Id's taken from populated database.
-		final Question question = this.questionService.create(2555);
+		try {
+			this.authenticate(username);
 
-		question.setText("Estara bien esto?");
-		System.out.println(question);
+			this.unauthenticate();
+		} catch (final Throwable oops) {
 
-		//Saving entity to database and confirming it exists with findAll().
-		final Question saved = this.questionService.save(question);
-		System.out.println("question saved: " + saved + saved.getText());
-		final Collection<Question> questions = this.questionService.findAll();
-		Assert.isTrue(questions.contains(saved));
+			caught = oops.getClass();
+
+		}
+
+		this.checkExceptions(expected, caught);
 	}
 
+	//Driver for multiple tests under the same template.
+
 	@Test
-	public void testListDeleteQuestion() {
-		//Setting up the authority to execute services.
-		this.authenticate("user1");
+	public void Driver() {
 
-		//We retrieve a list of all notes, and obtain the Id of one of them.
-		Collection<Question> questions = this.questionService.findAll();
-		final int id = questions.iterator().next().getId();
-		System.out.println("List question: " + questions);
-		//Using findOne() to retrieve a particular entity and verifying it.
-		final Question question = this.questionService.findOne(id);
-		Assert.notNull(id);
+		final Object testingData[][] = {
+					
+			//Test #01: . Expected true.
+			{, null},
+				
+			//Test #02: . Expected false.
+			{, IllegalArgumentException.class},
+				
+			//Test #03: . Expected false.
+			{, IllegalArgumentException.class}
 
-		System.out.println("Question encontrada:: " + question);
-
-		//Using delete() to delete the entity we retrieved.
-		this.questionService.delete(question);
-
-		//Verifying the entity has been removed from the database.
-		questions = this.questionService.findAll();
-		System.out.println("Lista de questions:: " + questions);
-		//Assert.isTrue(!questions.contains(question));
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.Template(() testingData[i][0], (Class<?>) testingData[i][]);
 	}
-
 }

@@ -17,12 +17,12 @@ import domain.Administrator;
 	"classpath:spring/junit.xml"
 })
 @Transactional
-public class AdministratorServiceTest extends AbstractTest {
+public class ServiceServiceTest extends AbstractTest {
 
 	//Service under test
 
 	@Autowired
-	private AdministratorService	administratorService;
+	private ServiceService	serviceService;
 
 
 	//Test template
