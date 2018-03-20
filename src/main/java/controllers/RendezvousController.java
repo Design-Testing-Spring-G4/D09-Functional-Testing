@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CategoryService;
 import services.RendezvousService;
 import services.UserService;
+import domain.Category;
 import domain.Rendezvous;
 
 @Controller
@@ -26,6 +28,9 @@ public class RendezvousController extends AbstractController {
 
 	@Autowired
 	private UserService			userService;
+
+	@Autowired
+	private CategoryService		categoryService;
 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -60,10 +65,26 @@ public class RendezvousController extends AbstractController {
 	public ModelAndView listRelated(@RequestParam final int varId) {
 		final ModelAndView result;
 		Collection<Rendezvous> rendezvouses;
-		Rendezvous r;
+		Rendezvous rendezvous;
 
-		r = this.rendezvousService.findOne(varId);
-		rendezvouses = r.getLinks();
+		rendezvous = this.rendezvousService.findOne(varId);
+		rendezvouses = rendezvous.getLinks();
+
+		result = new ModelAndView("rendezvous/list");
+		result.addObject("rendezvouses", rendezvouses);
+		result.addObject("requestURI", "rendezvous/list.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/listCategory", method = RequestMethod.GET)
+	public ModelAndView listCategory(@RequestParam final int varId) {
+		final ModelAndView result;
+		final Collection<Rendezvous> rendezvouses;
+		final Category category;
+
+		category = this.categoryService.findOne(varId);
+		rendezvouses = this.rendezvousService.findByCategory(category);
 
 		result = new ModelAndView("rendezvous/list");
 		result.addObject("rendezvouses", rendezvouses);
