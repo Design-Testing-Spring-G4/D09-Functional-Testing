@@ -75,10 +75,4 @@ public class CategoryService {
 
 	}
 
-	//Other methods
-
-	//Returns the category to which a certain trip is associated.
-	public Category categoryOfService(final domain.Service s) {
-		return this.categoryRepository.categoryOfService(s);
-	}
 }

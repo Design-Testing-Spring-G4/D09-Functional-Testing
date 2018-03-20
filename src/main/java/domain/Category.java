@@ -19,14 +19,14 @@ public class Category extends DomainEntity {
 
 	//Attributes
 
-	private String					name;
-	private String					description;
+	private String				name;
+	private String				description;
 
 	//Relationships
 
-	private Category				parent;
-	private Collection<Category>	children;
-	private Collection<Service>		services;
+	private Category			parent;
+	//	private Collection<Category>	children;
+	private Collection<Service>	services;
 
 
 	//Getters
@@ -47,9 +47,9 @@ public class Category extends DomainEntity {
 	}
 
 	//@ElementCollection
-	public Collection<Category> getChildren() {
-		return this.children;
-	}
+	//	public Collection<Category> getChildren() {
+	//		return this.children;
+	//	}
 
 	@Valid
 	@NotNull
@@ -72,9 +72,9 @@ public class Category extends DomainEntity {
 		this.parent = parent;
 	}
 
-	public void setChildren(final Collection<Category> children) {
-		this.children = children;
-	}
+	//	public void setChildren(final Collection<Category> children) {
+	//		this.children = children;
+	//	}
 
 	public void setServices(final Collection<Service> services) {
 		this.services = services;
