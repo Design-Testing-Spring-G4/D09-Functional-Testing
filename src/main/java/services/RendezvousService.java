@@ -18,6 +18,7 @@ import repositories.CommentRepository;
 import repositories.RendezvousRepository;
 import repositories.RequestRepository;
 import domain.Announcement;
+import domain.Category;
 import domain.Comment;
 import domain.Question;
 import domain.Rendezvous;
@@ -157,6 +158,15 @@ public class RendezvousService {
 		for (final Rendezvous r : user.getRendezvous())
 			questions.addAll(r.getQuestions());
 		return questions;
+	}
+
+	public Collection<Rendezvous> findByCategory(final Category category) {
+		final Collection<Rendezvous> result = this.findAll();
+		for (final Rendezvous r : result)
+			for (final Request rq : r.getRequests())
+				if (!rq.getService().getCategory().equals(category))
+					result.remove(r);
+		return result;
 	}
 
 	public Double[] avgStddevUserPerRendezvous() {
