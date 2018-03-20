@@ -8,14 +8,32 @@
  * http://www.tdg-seville.info/License.html
  --%>
 
-<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 
-<%@taglib prefix="jstl"	uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
+<jstl:set var="localeCode" value="${pageContext.response.locale}" />
 
-<p><spring:message code="welcome.greeting.current.time" /> ${moment}</p> 
+<h1>
+	<jstl:out value="${configuration.companyName}" />
+</h1>
+<img src="${configuration.banner}" width="468" height="100">
+<br />
+
+<jstl:if test="${localeCode == 'en'}">
+	<jstl:out value="${configuration.welcomeEN}" />
+</jstl:if>
+<jstl:if test="${localeCode == 'es'}">
+	<jstl:out value="${configuration.welcomeES}" />
+</jstl:if>
+
+<p>
+	<spring:message code="welcome.greeting.current.time" />
+	${moment}
+</p>
