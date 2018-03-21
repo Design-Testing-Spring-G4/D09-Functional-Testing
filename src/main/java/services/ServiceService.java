@@ -59,14 +59,6 @@ public class ServiceService {
 		return saved;
 	}
 
-	//Internal save for category management.
-	public domain.Service saveInternal(final domain.Service s) {
-		Assert.notNull(s);
-
-		final domain.Service saved = this.serviceRepository.save(s);
-		return saved;
-	}
-
 	public void delete(final domain.Service s) {
 		Assert.notNull(s);
 
@@ -77,7 +69,22 @@ public class ServiceService {
 		}
 		this.serviceRepository.delete(s);
 	}
+	public domain.Service cancel(final domain.Service service) {
+		Assert.notNull(service);
+
+		service.setCancelled(true);
+
+		final domain.Service saved = this.serviceRepository.save(service);
+
+		return saved;
+	}
 
 	//Ancillary methods
+	public Collection<domain.Service> servicesByManager(final Manager manager) {
+		final Collection<domain.Service> services = new ArrayList<>();
+		for (final domain.Service s : manager.getServices())
+			services.add(s);
+		return services;
+	}
 
 }
