@@ -31,11 +31,13 @@
 <spring:message code="category.create" var="create" />
 <spring:message code="category.delete" var="delete" />
 <spring:message code="category.edit" var="edit" />
+<spring:message code="category.manage" var="manage" />
 <spring:message code="category.confirm.delete" var="confirm" />
+<spring:message code="category.return" var="msgReturn" />
 
 <%-- Listing grid --%>
 
-<security:authorize access="permitAll">
+<security:authorize access="hasRole('ADMIN')">
 
 <display:table pagesize="5" class="displaytag" keepStatus="false"
 	name="categories" requestURI="${requestURI}" id="row">
@@ -50,7 +52,7 @@
 
 	<%-- Links towards display, apply, edit and cancel views --%>
 
-	<spring:url var="rendezvousUrl" value="rendezvous/categoryList.do">
+	<spring:url var="rendezvousUrl" value="rendezvous/listCategory.do">
 		<spring:param name="varId" value="${row.id}" />
 	</spring:url>
 
@@ -58,30 +60,39 @@
 		<a href="${rendezvousUrl}"><jstl:out value="${rendezvous}" /></a>
 	</display:column>
 	
-	<spring:url var="childrenListUrl" value="category/childrenList.do">
+	<spring:url var="childrenListUrl" value="category/administrator/childrenList.do">
 		<spring:param name="varId" value="${row.id}" />
 	</spring:url>
 	
 	<display:column>
 		<a href="${childrenListUrl}"><jstl:out value="${children}" /></a>
 	</display:column>
+	
+	<spring:url var="editUrl" value="category/administrator/edit.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
+	
+	<display:column>
+		<a href="${editUrl}"><jstl:out value="${edit}" /></a>
+	</display:column>
+	
+	<spring:url var="manageUrl" value="category/administrator/manage.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
+	
+	<display:column>
+		<a href="${manageUrl}"><jstl:out value="${manage}" /></a>
+	</display:column>
 
-	<security:authorize access="hasRole('ADMIN')">
-	
-		<spring:url var="editUrl" value="category/administrator/edit.do">
-			<spring:param name="varId" value="${row.id}" />
-		</spring:url>
-	
-		<display:column>
-			<a href="${editUrl}"><jstl:out value="${edit}" /></a>
-		</display:column>
-	
-	</security:authorize>
 </display:table>
-</security:authorize>
 
-<security:authorize access="hasRole('ADMIN')">
 <spring:url var="createUrl" value="category/administrator/create.do"/>
 	<a href="${createUrl}"><jstl:out value="${create}"/></a>
-	
+
+<jstl:if test="${requestURI == 'category/administrator/childrenList.do'}">
+	<br/>
+	<spring:url var="returnUrl" value="category/administrator/list.do" />
+		<a href="${returnUrl}"><jstl:out value="${msgReturn}" /></a>
+</jstl:if>
+
 </security:authorize>

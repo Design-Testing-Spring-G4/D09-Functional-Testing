@@ -59,6 +59,14 @@ public class ServiceService {
 		return saved;
 	}
 
+	//Internal save for category management.
+	public domain.Service saveInternal(final domain.Service s) {
+		Assert.notNull(s);
+
+		final domain.Service saved = this.serviceRepository.save(s);
+		return saved;
+	}
+
 	public void delete(final domain.Service s) {
 		Assert.notNull(s);
 

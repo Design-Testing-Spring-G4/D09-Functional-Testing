@@ -1,6 +1,7 @@
 
 package controllers.administrator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -27,6 +28,18 @@ public class CategoryAdministratorController extends AbstractController {
 	@Autowired
 	private CategoryService	categoryService;
 
+	//Ancillary attributes
+
+	private Category		current;
+
+
+	public Category getCurrent() {
+		return this.current;
+	}
+
+	public void setCurrent(final Category current) {
+		this.current = current;
+	}
 
 	//Listing
 
@@ -38,8 +51,25 @@ public class CategoryAdministratorController extends AbstractController {
 		categories = this.categoryService.findAll();
 
 		result = new ModelAndView("category/list");
-		result.addObject("categoryes", categories);
+		result.addObject("categories", categories);
 		result.addObject("requestURI", "category/administrator/list.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/childrenList", method = RequestMethod.GET)
+	public ModelAndView childrenList(@RequestParam final int varId) {
+		final ModelAndView result;
+		final Collection<Category> categories = new ArrayList<Category>();
+		Category category;
+
+		category = this.categoryService.findOne(varId);
+		for (final Integer i : category.getChildren())
+			categories.add(this.categoryService.findOne(i));
+
+		result = new ModelAndView("category/list");
+		result.addObject("categories", categories);
+		result.addObject("requestURI", "category/administrator/childrenList.do");
 
 		return result;
 	}
@@ -90,15 +120,78 @@ public class CategoryAdministratorController extends AbstractController {
 	public ModelAndView delete(@Valid final Category category, final BindingResult binding) {
 		ModelAndView result;
 
-		if (binding.hasErrors())
+		if (binding.hasErrors()) {
+			System.out.println(binding.getAllErrors());
 			result = this.createEditModelAndView(category);
-		else
+		} else
 			try {
 				this.categoryService.delete(category);
 				result = new ModelAndView("redirect:/category/administrator/list.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(category, "category.commit.error");
+				System.out.println(oops.toString());
+				result = this.createEditModelAndView(category, "category.delete.error");
 			}
+		return result;
+	}
+
+	//Management
+
+	@RequestMapping(value = "/manage", method = RequestMethod.GET)
+	public ModelAndView manage(@RequestParam final int varId) {
+		final ModelAndView result;
+		Collection<Category> categories;
+		Category category;
+
+		categories = this.categoryService.findAll();
+		category = this.categoryService.findOne(varId);
+		categories.remove(category);
+		this.setCurrent(category);
+
+		result = new ModelAndView("category/manage");
+		result.addObject("categories", categories);
+		result.addObject("category", category);
+		result.addObject("requestURI", "category/administrator/manage.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/setParent", method = RequestMethod.GET)
+	public ModelAndView setParent(@RequestParam final int varId) {
+		final ModelAndView result;
+		Category category;
+
+		category = this.categoryService.findOne(varId);
+		this.getCurrent().setParent(category);
+		this.categoryService.save(this.getCurrent());
+		final int catId = this.getCurrent().getId();
+		result = new ModelAndView("redirect:/category/administrator/manage.do?varId=" + catId);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/setChild", method = RequestMethod.GET)
+	public ModelAndView setChild(@RequestParam final int varId) {
+		final ModelAndView result;
+		Category category;
+
+		category = this.categoryService.findOne(varId);
+		this.getCurrent().getChildren().add(category.getId());
+		this.categoryService.save(this.getCurrent());
+		final int catId = this.getCurrent().getId();
+		result = new ModelAndView("redirect:/category/administrator/manage.do?varId=" + catId);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/clear", method = RequestMethod.GET)
+	public ModelAndView clear() {
+		final ModelAndView result;
+
+		this.getCurrent().setParent(null);
+		this.categoryService.save(this.getCurrent());
+		final int catId = this.getCurrent().getId();
+		result = new ModelAndView("redirect:/category/administrator/manage.do?varId=" + catId);
+
 		return result;
 	}
 

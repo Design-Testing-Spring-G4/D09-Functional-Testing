@@ -23,7 +23,9 @@
 
 <spring:message code="category.name" var="name" />
 <spring:message code="category.parent" var="parent" />
-<spring:message code="category.set" var="set" />
+<spring:message code="category.setParent" var="setParent" />
+<spring:message code="category.setChild" var="setChild" />
+<spring:message code="category.clear" var="clear" />
 <spring:message code="category.return" var="returnMsg" />
 
 <security:authorize access="hasRole('ADMIN')">
@@ -39,20 +41,33 @@
 
 	<display:column property="parent.name" title="${parent}" sortable="true" />
 
-	<%-- Link to set as service's category --%>
+	<%-- Link to set as parent or child --%>
 
-	<spring:url var="setUrl" value="category/administrator/set.do">
+	<spring:eval var="contains" expression="category.children.contains(row.id)" />
+	
+	<spring:url var="setParentUrl" value="category/administrator/setParent.do">
+		<spring:param name="varId" value="${row.id}" />
+	</spring:url>
+	
+	<spring:url var="setChildUrl" value="category/administrator/setChild.do">
 		<spring:param name="varId" value="${row.id}" />
 	</spring:url>
 
 	<display:column>
-		<a href="${setUrl}"><jstl:out value="${set}" /></a>
+		<jstl:if test="${contains == false && row.id != category.parent.id}">
+			<a href="${setParentUrl}"><jstl:out value="${setParent}" /></a>
+			
+			<a href="${setChildUrl}"><jstl:out value="${setChild}" /></a>
+		</jstl:if>
 	</display:column>
 	
 </display:table>
 
+<spring:url var="clearUrl" value="category/administrator/clear.do" />
+<a href="${clearUrl}"><jstl:out value="${clear}" /></a>
+
 <br/>
 <input type="button" name="return" value="${returnMsg}"
-	onclick="javascript: relativeRedir('welcome/index.do');" />
+	onclick="javascript: relativeRedir('category/administrator/list.do');" />
 	
 </security:authorize>

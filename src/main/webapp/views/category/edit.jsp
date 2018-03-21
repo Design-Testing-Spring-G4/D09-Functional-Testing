@@ -24,6 +24,7 @@
 	<spring:message code="category.create" var="create" />
 	<spring:message code="category.edit" var="edit" />
 	<spring:message code="category.name" var="name" />
+	<spring:message code="category.description" var="description" />
 	<spring:message code="category.parent" var="parent" />
 	<spring:message code="category.save" var="save" />
 	<spring:message code="category.delete" var="delete" />
@@ -37,31 +38,23 @@
 
 		<form:hidden path="id" />
 		<form:hidden path="version" />
-		<form:hidden path="trip" />
+		<form:hidden path="parent" />
 		<form:hidden path="children" />
+		<form:hidden path="services" />
 
 		<form:label path="name">
 			<jstl:out value="${name}" />:
-	</form:label>
+		</form:label>
 		<form:input path="name" />
 		<form:errors cssClass="error" path="name" />
 		<br />
-
-	<jstl:if test="${category.id!=0}">
-	<form:hidden path="parent"/>
-	</jstl:if>
-	<jstl:if test="${category.id==0}">
-	
-		<form:label path="parent">
-			<jstl:out value="${parent}" />:
-	</form:label>
-		<form:select path="parent">
-			<form:option label="----" value="0" />
-			<form:options items="${categories}" itemLabel="name" itemValue="id" />
-		</form:select>
-		<form:errors cssClass="error" path="parent" />
+		
+		<form:label path="description">
+			<jstl:out value="${description}" />:
+		</form:label>
+		<form:input path="description" />
+		<form:errors cssClass="error" path="description" />
 		<br />
-		</jstl:if>
 		
 		<br />
 		<br />

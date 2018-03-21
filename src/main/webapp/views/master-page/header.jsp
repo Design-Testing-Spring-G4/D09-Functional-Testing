@@ -41,8 +41,6 @@
 					<li class="arrow"></li>
 
 					<security:authorize access="hasRole('USER')">
-						<li><a href="user/edit.do"><spring:message
-									code="master.page.user.edit" /></a></li>
 						<li><a href="rendezvous/user/list.do"><spring:message
 									code="master.page.user.rendezvousList" /></a></li>
 						<li><a href="announcement/user/list.do"><spring:message
@@ -52,6 +50,8 @@
 					<security:authorize access="hasRole('ADMIN')">
 						<li><a href="administrator/dashboard.do"><spring:message
 									code="master.page.dashboard" /></a></li>
+						<li><a href="category/administrator/list.do"><spring:message
+									code="master.page.categoryList" /></a></li>
 					</security:authorize>
 
 					<li><a href="j_spring_security_logout"><spring:message
@@ -75,8 +75,7 @@
 	<a href="?language=en">en</a> | <a href="?language=es">es</a>
 </div>
 <div>
-	<jsp:useBean id="configuration1" class="domain.Configuration" scope="session" />
+	<jsp:useBean id="configuration1" class="domain.Configuration" scope="application" />
 	<jsp:setProperty property="companyName" name="configuration1" value="Adventure meetups"/>
-	<jsp:getProperty property="companyName" name="configuration1" />
-	<br/>
+	<h1><jsp:getProperty property="companyName" name="configuration1" /></h1>
 </div>

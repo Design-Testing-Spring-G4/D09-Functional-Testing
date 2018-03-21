@@ -21,6 +21,11 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository	categoryRepository;
 
+	//Supporting services
+
+	@Autowired
+	private ServiceService		serviceService;
+
 
 	//Simple CRUD methods
 
@@ -58,11 +63,19 @@ public class CategoryService {
 	public void delete(final Category c) {
 		Assert.notNull(c);
 
-		this.categoryRepository.delete(c);
+		if (c.getParent() != null) {
+			final Category parent = c.getParent();
+			parent.getChildren().remove(c);
+			this.categoryRepository.save(parent);
+		}
 
-		final Category parent = c.getParent();
-		parent.getChildren().remove(c);
-		this.categoryRepository.save(parent);
+		final Category defaultCat = this.findAll().iterator().next();
+		for (final domain.Service s : c.getServices()) {
+			s.setCategory(defaultCat);
+			this.serviceService.saveInternal(s);
+		}
+
+		this.categoryRepository.delete(c);
 
 	}
 
