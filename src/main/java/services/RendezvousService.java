@@ -161,11 +161,11 @@ public class RendezvousService {
 	}
 
 	public Collection<Rendezvous> findByCategory(final Category category) {
-		final Collection<Rendezvous> result = this.findAll();
-		for (final Rendezvous r : result)
+		final Collection<Rendezvous> result = new ArrayList<Rendezvous>();
+		for (final Rendezvous r : this.findAll())
 			for (final Request rq : r.getRequests())
-				if (!rq.getService().getCategory().equals(category))
-					result.remove(r);
+				if (rq.getService().getCategory().equals(category) && !result.contains(r))
+					result.add(r);
 		return result;
 	}
 

@@ -27,7 +27,7 @@ public class CategoryService {
 	public Category create() {
 		final Category c = new Category();
 
-		c.setChildren(new ArrayList<Category>());
+		c.setChildren(new ArrayList<Integer>());
 		c.setServices(new ArrayList<domain.Service>());
 
 		return c;
@@ -45,27 +45,18 @@ public class CategoryService {
 
 	public Category save(final Category c) {
 		Assert.notNull(c);
-		//Since the only category without parent must be the root "CATEGORY", all others must have a parent ID.
-		Assert.notNull(c.getParent());
+
 		//Business rule: two categories with the same parent cannot have the same name.
 		if (c.getId() == 0)
 			for (final Category a : this.findAll())
 				Assert.isTrue(!(a.getParent() == (c.getParent()) && a.getName().equals(c.getName())));
 
 		final Category saved = this.categoryRepository.save(c);
-
-		if (c.getId() == 0) {
-			Category parent = this.categoryRepository.findOne(c.getParent().getId());
-			parent.getChildren().add(saved);
-			parent = this.categoryRepository.save(parent);
-		}
 		return saved;
 	}
 
 	public void delete(final Category c) {
 		Assert.notNull(c);
-		//The root category should not be deleted.
-		Assert.isTrue(!(c.getParent() == null));
 
 		this.categoryRepository.delete(c);
 

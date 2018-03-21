@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,13 +83,23 @@ public class RendezvousController extends AbstractController {
 		final ModelAndView result;
 		final Collection<Rendezvous> rendezvouses;
 		final Category category;
+		final Collection<Category> children = new ArrayList<Category>();
 
-		category = this.categoryService.findOne(varId);
+		if (varId == 0)
+			category = this.categoryService.findAll().iterator().next();
+		else
+			category = this.categoryService.findOne(varId);
+
 		rendezvouses = this.rendezvousService.findByCategory(category);
+		for (final Integer i : category.getChildren())
+			children.add(this.categoryService.findOne(i));
 
 		result = new ModelAndView("rendezvous/list");
 		result.addObject("rendezvouses", rendezvouses);
-		result.addObject("requestURI", "rendezvous/list.do");
+		result.addObject("category", category);
+		result.addObject("categories", this.categoryService.findAll());
+		result.addObject("childrenCategories", children);
+		result.addObject("requestURI", "rendezvous/listCategory.do");
 
 		return result;
 	}

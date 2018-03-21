@@ -3,7 +3,6 @@ package domain;
 
 import java.util.Collection;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -12,10 +11,6 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class User extends Actor {
-
-	//Attributes
-
-	private Collection<CreditCard>		creditCards;
 
 	//Relationships
 
@@ -63,13 +58,6 @@ public class User extends Actor {
 		return this.answers;
 	}
 
-	@NotNull
-	@Valid
-	@ElementCollection
-	public Collection<CreditCard> getCreditCards() {
-		return this.creditCards;
-	}
-
 	//Setters
 
 	public void setRendezvous(final Collection<Rendezvous> rendezvous) {
@@ -91,9 +79,4 @@ public class User extends Actor {
 	public void setAnswers(final Collection<Answer> answers) {
 		this.answers = answers;
 	}
-
-	public void setCreditCards(final Collection<CreditCard> creditCards) {
-		this.creditCards = creditCards;
-	}
-
 }

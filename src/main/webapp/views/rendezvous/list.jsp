@@ -20,6 +20,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%-- Stored message variables --%>
 
@@ -47,11 +48,57 @@
 <spring:message code="rendezvous.dateint" var="formatDate" />
 <spring:message code="rendezvous.passed" var="passed" />
 <spring:message code="rendezvous.link" var="link" />
+<spring:message code="rendezvous.children" var="children" />
+<spring:message code="rendezvous.parent" var="parent" />
+<spring:message code="rendezvous.negative" var="negative" />
+<spring:message code="rendezvous.allCategory" var="allCategory" />
 
 <jsp:useBean id="now" class="java.util.Date"/>
 
-<%-- Listing grid --%>
 <security:authorize access="permitAll()">
+
+<%-- Conditional to display category list in the appropriate view --%>
+
+<jstl:if test="${requestURI == 'rendezvous/listCategory.do'}" >
+	<jstl:out value="${category.name}" />.&nbsp;
+	<jstl:out value="${parent}" />:&nbsp;
+	<jstl:choose>
+		<jstl:when test="${category.parent != null}">
+			<spring:url var="parentUrl" value="rendezvous/listCategory.do">
+				<spring:param name="varId" value="${category.parent.id}" />
+			</spring:url>
+			<a href="${parentUrl}"><jstl:out value="${category.parent.name}" /></a>&nbsp;
+		</jstl:when>
+		<jstl:otherwise>
+			<jstl:out value="${negative}"/>.&nbsp;
+		</jstl:otherwise>
+	</jstl:choose>
+	<jstl:out value="${children}" />:&nbsp;
+	<jstl:choose>
+		<jstl:when test="${fn:length(category.children) != 0}">
+			<jstl:forEach var="child" items="${childrenCategories}">
+				<spring:url var="childUrl" value="rendezvous/listCategory.do">
+					<spring:param name="varId" value="${child.id}" />
+				</spring:url>
+				<a href="${childUrl}"><jstl:out value="${child.name}" /></a>&nbsp;
+			</jstl:forEach>
+		</jstl:when>
+		<jstl:otherwise>
+			<jstl:out value="${negative}"/>.&nbsp;
+		</jstl:otherwise>
+	</jstl:choose>
+	<br/>
+	<jstl:out value="${allCategory}" />:&nbsp;
+	<jstl:forEach var="cat" items="${categories}">
+		<spring:url var="catUrl" value="rendezvous/listCategory.do">
+			<spring:param name="varId" value="${cat.id}" />
+		</spring:url>
+		<a href="${catUrl}"><jstl:out value="${cat.name}" /></a>&nbsp;
+	</jstl:forEach>
+</jstl:if>
+<br/>
+
+<%-- Listing grid --%>
 
 <display:table pagesize="5" class="displaytag" keepStatus="false"
 	name="rendezvouses" requestURI="${requestURI}" id="row">

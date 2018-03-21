@@ -1,7 +1,6 @@
 
 package controllers.user;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -170,21 +169,23 @@ public class RendezvousUserController extends AbstractController {
 	public ModelAndView rsvp(@Valid final int varId) {
 		ModelAndView result;
 		Rendezvous rendezvous;
-		Collection<Question> questions = new ArrayList<Question>();
+		//		Collection<Question> questions = new ArrayList<Question>();
 
 		rendezvous = this.rendezvousService.findOne(varId);
-		if (this.getCurrent() != rendezvous) {
-			this.setCurrent(rendezvous);
-			this.setRsvpQuestions(rendezvous.getQuestions());
-		}
-		questions = this.getRsvpQuestions();
-		if (!this.getRsvpQuestions().isEmpty()) {
-			final Question question = questions.iterator().next();
-			result = new ModelAndView("redirect:/answer/user/create.do?varId=" + question.getId());
-			questions.remove(question);
-			this.setRsvpQuestions(questions);
-		} else
-			result = new ModelAndView("redirect:/rendezvous/user/list.do");
+		//		if (this.getCurrent() != rendezvous) {
+		//			this.setCurrent(rendezvous);
+		//			this.setRsvpQuestions(rendezvous.getQuestions());
+		//		}
+		//		questions = this.getRsvpQuestions();
+		//		if (!this.getRsvpQuestions().isEmpty()) {
+		//			final Question question = questions.iterator().next();
+		//			result = new ModelAndView("redirect:/answer/user/create.do?varId=" + question.getId());
+		//			questions.remove(question);
+		//			this.setRsvpQuestions(questions);
+		//		} else
+		//			result = new ModelAndView("redirect:/rendezvous/user/list.do");
+		this.rendezvousService.addRendezvous(rendezvous);
+		result = new ModelAndView("redirect:/rendezvous/user/list.do");
 
 		return result;
 	}

@@ -158,9 +158,6 @@
 				<ref bean="answer9" />
 			</list>
 		</property>
-		<property name="creditCards">
-			<list></list>
-		</property>
 	</bean>
 
 	<bean id="user2" class="domain.User">
@@ -198,11 +195,6 @@
 			<list>
 				<ref bean="answer2" />
 				<ref bean="answer4" />
-			</list>
-		</property>
-		<property name="creditCards">
-			<list>
-				<ref bean="creditCard1" />
 			</list>
 		</property>
 	</bean>
@@ -244,11 +236,6 @@
 				<ref bean="answer10" />
 			</list>
 		</property>
-		<property name="creditCards">
-			<list>
-				<ref bean="creditCard2" />
-			</list>
-		</property>
 	</bean>
 
 
@@ -279,9 +266,6 @@
 		<property name="answers">
 			<list>
 			</list>
-		</property>
-		<property name="creditCards">
-			<list></list>
 		</property>
 	</bean>
 
@@ -583,6 +567,10 @@
 		<property name="parent">
 			<null />
 		</property>
+		<property name="children">
+			<list>
+			</list>
+		</property>
 		<property name="services">
 			<list></list>
 		</property>
@@ -594,6 +582,7 @@
 		<property name="parent">
 			<null />
 		</property>
+		<property name="children" value="551" />
 		<property name="services">
 			<list>
 				<ref bean="service2" />
@@ -607,6 +596,10 @@
 		<property name="description"
 			value="A category for the rendezvouses specifically related to safaris." />
 		<property name="parent" ref="category2" />
+		<property name="children">
+			<list>
+			</list>
+		</property>
 		<property name="services">
 			<list>
 				<ref bean="service1" />
@@ -721,7 +714,7 @@
 	
 	<bean id="request6" class="domain.Request">
 		<property name="creditCard" ref="creditCard2" />
-		<property name="comments" value="XD" />
+		<property name="comments" value="X" />
 		<property name="service" ref="service3" />
 		<property name="rendezvous" ref="rendezvous3" />
 	</bean>

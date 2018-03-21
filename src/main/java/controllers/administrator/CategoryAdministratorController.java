@@ -81,7 +81,7 @@ public class CategoryAdministratorController extends AbstractController {
 				this.categoryService.save(category);
 				result = new ModelAndView("redirect:/category/administrator/list.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(category, "category.commit.error");
+				result = this.createEditModelAndView(category, "category.name.error");
 			}
 		return result;
 	}

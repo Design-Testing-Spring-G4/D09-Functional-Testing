@@ -14,6 +14,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div>
 	<img src="images/logo.png" alt="Acme, Inc." />
@@ -66,12 +67,16 @@
 						code="master.page.userList" /></a></li>
 			<li><a class="fNiv" href="rendezvous/list.do"><spring:message
 						code="master.page.rendezvousList" /></a></li>
+			<li><a href="rendezvous/listCategory.do?varId=0"><spring:message
+						code="master.page.rendezvousCategory" /></a></li>
 		</security:authorize>
 
 	</ul>
 	<a href="?language=en">en</a> | <a href="?language=es">es</a>
 </div>
-<!-- <div>
-	<jsp:useBean id="configurationInfo" class="domain.Configuration"></jsp:useBean>
-	<jsp:getProperty property="banner" name="configurationInfo" /><br>
-</div>-->
+<div>
+	<jsp:useBean id="configuration1" class="domain.Configuration" scope="session" />
+	<jsp:setProperty property="companyName" name="configuration1" value="Adventure meetups"/>
+	<jsp:getProperty property="companyName" name="configuration1" />
+	<br/>
+</div>
