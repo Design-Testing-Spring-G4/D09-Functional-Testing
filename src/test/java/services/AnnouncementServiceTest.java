@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Administrator;
+import domain.Announcement;
+import domain.Rendezvous;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -24,14 +27,42 @@ public class AnnouncementServiceTest extends AbstractTest {
 	@Autowired
 	private AnnouncementService	announcementService;
 
+	//Supporting services
+
+	@Autowired
+	private RendezvousService	rendezvousService;
+
 
 	//Test template
 
-	protected void Template(final String username, final Class<?> expected) {
+	protected void Template(final String username, final String title, final String description, final String title2, final String description2, final Class<?> expected) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(username);
+
+			//Creation
+			final Announcement announcement = this.announcementService.create();
+			announcement.setTitle(title);
+			announcement.setDescription(description);
+			final Rendezvous rendezvous = this.rendezvousService.findOne(this.getEntityId("rendezvous1"));
+			announcement.setRendezvous(rendezvous);
+			final Announcement saved = this.announcementService.save(announcement);
+
+			//Listing
+			Collection<Announcement> cl = this.announcementService.findAll();
+			Assert.isTrue(cl.contains(saved));
+			Assert.notNull(this.announcementService.findOne(saved.getId()));
+
+			//Edition
+			saved.setTitle(title2);
+			saved.setDescription(description2);
+			final Announcement saved2 = this.announcementService.save(saved);
+
+			//Deletion
+			this.announcementService.delete(saved2);
+			cl = this.announcementService.findAll();
+			Assert.isTrue(!cl.contains(saved));
 
 			this.unauthenticate();
 		} catch (final Throwable oops) {

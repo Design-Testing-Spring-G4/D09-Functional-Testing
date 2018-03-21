@@ -26,10 +26,6 @@ public class ConfigurationService {
 	public Configuration create() {
 
 		final Configuration c = new Configuration();
-		c.setBanner("http://www.theadventuretravelsite.com/blog-data/themes/theadventuretravelsite/images/main/banner.png");
-		c.setCompanyName("Adventure meetups");
-		c.setWelcomeEN("Your place to organise your adventure meetups!");
-		c.setWelcomeES("Tu sitio para organizar quedadas de aventura");
 
 		return c;
 	}

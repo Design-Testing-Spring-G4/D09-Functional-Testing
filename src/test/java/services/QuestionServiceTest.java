@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Administrator;
+import domain.Question;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -27,11 +29,30 @@ public class QuestionServiceTest extends AbstractTest {
 
 	//Test template
 
-	protected void Template(final String username, final Class<?> expected) {
+	protected void Template(final String username, final String text, final String text2, final Class<?> expected) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(username);
+
+			//Creation
+			final Question question = this.questionService.create(this.getEntityId("rendezvous1"));
+			question.setText(text);
+			final Question saved = this.questionService.save(question);
+
+			//Listing
+			Collection<Question> cl = this.questionService.findAll();
+			Assert.isTrue(cl.contains(saved));
+			Assert.notNull(this.questionService.findOne(saved.getId()));
+
+			//Edition
+			saved.setText(text2);
+			final Question saved2 = this.questionService.save(saved);
+
+			//Deletion
+			this.questionService.delete(saved2);
+			cl = this.questionService.findAll();
+			Assert.isTrue(!cl.contains(saved));
 
 			this.unauthenticate();
 		} catch (final Throwable oops) {

@@ -1,6 +1,9 @@
 
 package services;
 
+import java.util.Collection;
+import java.util.Date;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +30,41 @@ public class AdministratorServiceTest extends AbstractTest {
 
 	//Test template
 
-	protected void Template(final String username, final Class<?> expected) {
+	protected void Template(final String username, final String address, final Date birthDate, final String email, final String name, final String surname, final String phone, final String address2, final Date birthDate2, final String email2,
+		final String name2, final String surname2, final String phone2, final Class<?> expected) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(username);
+
+			//Creation
+			final Administrator administrator = this.administratorService.create();
+			administrator.setAddress(address);
+			administrator.setBirthDate(birthDate);
+			administrator.setEmail(email);
+			administrator.setName(name);
+			administrator.setSurname(surname);
+			administrator.setPhone(phone);
+			final Administrator saved = this.administratorService.save(administrator);
+
+			//Listing
+			Collection<Administrator> cl = this.administratorService.findAll();
+			Assert.isTrue(cl.contains(saved));
+			Assert.notNull(this.administratorService.findOne(saved.getId()));
+
+			//Edition
+			saved.setAddress(address2);
+			saved.setBirthDate(birthDate2);
+			saved.setEmail(email2);
+			saved.setName(name2);
+			saved.setSurname(surname2);
+			saved.setPhone(phone2);
+			final Administrator saved2 = this.administratorService.save(saved);
+
+			//Deletion
+			this.administratorService.delete(saved2);
+			cl = this.administratorService.findAll();
+			Assert.isTrue(!cl.contains(saved));
 
 			this.unauthenticate();
 		} catch (final Throwable oops) {

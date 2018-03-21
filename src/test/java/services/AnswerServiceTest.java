@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Administrator;
+import domain.Answer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -27,11 +30,30 @@ public class AnswerServiceTest extends AbstractTest {
 
 	//Test template
 
-	protected void Template(final String username, final Class<?> expected) {
+	protected void Template(final String username, final String ans, final String ans2, final Class<?> expected) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(username);
+
+			//Creation
+			final Answer answer = this.answerService.create(this.getEntityId("question1"));
+			answer.setAnswer(ans);
+			final Answer saved = this.answerService.save(answer);
+
+			//Listing
+			Collection<Answer> cl = this.answerService.findAll();
+			Assert.isTrue(cl.contains(saved));
+			Assert.notNull(this.answerService.findOne(saved.getId()));
+
+			//Edition
+			saved.setAnswer(ans2);
+			final Answer saved2 = this.answerService.save(saved);
+
+			//Deletion
+			this.answerService.delete(saved2);
+			cl = this.answerService.findAll();
+			Assert.isTrue(!cl.contains(saved));
 
 			this.unauthenticate();
 		} catch (final Throwable oops) {

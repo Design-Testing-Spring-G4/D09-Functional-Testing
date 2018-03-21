@@ -1,15 +1,18 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
-import repositories.CategoryService;
 import utilities.AbstractTest;
+import domain.Category;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -26,11 +29,34 @@ public class CategoryServiceTest extends AbstractTest {
 
 	//Test template
 
-	protected void Template(final String username, final Class<?> expected) {
+	protected void Template(final String username, final String name, final String description, final String name2, final String description2, final Class<?> expected) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(username);
+
+			//Creation
+			final Category category = this.categoryService.create();
+			category.setName(name);
+			category.setDescription(description);
+			final Category parent = this.categoryService.findOne(this.getEntityId("category1"));
+			category.setParent(parent);
+			final Category saved = this.categoryService.save(category);
+
+			//Listing
+			Collection<Category> cl = this.categoryService.findAll();
+			Assert.isTrue(cl.contains(saved));
+			Assert.notNull(this.categoryService.findOne(saved.getId()));
+
+			//Edition
+			saved.setName(name2);
+			saved.setDescription(description2);
+			final Category saved2 = this.categoryService.save(saved);
+
+			//Deletion
+			this.categoryService.delete(saved2);
+			cl = this.categoryService.findAll();
+			Assert.isTrue(!cl.contains(saved));
 
 			this.unauthenticate();
 		} catch (final Throwable oops) {

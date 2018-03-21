@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Administrator;
+import domain.Comment;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -27,11 +29,32 @@ public class CommentServiceTest extends AbstractTest {
 
 	//Test template
 
-	protected void Template(final String username, final Class<?> expected) {
+	protected void Template(final String username, final String text, final String picture, final String text2, final String picture2, final Class<?> expected) {
 		Class<?> caught = null;
 
 		try {
 			this.authenticate(username);
+
+			//Creation
+			final Comment comment = this.commentService.create();
+			comment.setText(text);
+			comment.setPicture(picture);
+			final Comment saved = this.commentService.save(comment);
+
+			//Listing
+			Collection<Comment> cl = this.commentService.findAll();
+			Assert.isTrue(cl.contains(saved));
+			Assert.notNull(this.commentService.findOne(saved.getId()));
+
+			//Edition
+			saved.setText(text2);
+			saved.setPicture(picture2);
+			final Comment saved2 = this.commentService.save(saved);
+
+			//Deletion
+			this.commentService.delete(saved2);
+			cl = this.commentService.findAll();
+			Assert.isTrue(!cl.contains(saved));
 
 			this.unauthenticate();
 		} catch (final Throwable oops) {
