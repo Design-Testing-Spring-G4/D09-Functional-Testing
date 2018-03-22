@@ -80,18 +80,38 @@ public class AnnouncementServiceTest extends AbstractTest {
 	public void Driver() {
 
 		final Object testingData[][] = {
-					
-			//Test #01: . Expected true.
-			{, null},
-				
-			//Test #02: . Expected false.
-			{, IllegalArgumentException.class},
-				
-			//Test #03: . Expected false.
-			{, IllegalArgumentException.class}
+
+			//Test #01: Correct execution of test. Expected true.
+			{
+				"user1", "testAnnouncement", "testDescription", "editAnnouncement", "editDescription", null
+			},
+
+			//Test #02: Attempt to execute the test by anonymous user. Expected false.
+
+			{
+				null, "testAnnouncement", "testDescription", "editAnnouncement", "editDescription", IllegalArgumentException.class
+			},
+
+			//Test #03: Attempt to execute the test by anonymous user. Expected false.
+
+			{
+				"manager1", "testAnnouncement", "testDescription", "editAnnouncement", "editDescription", IllegalArgumentException.class
+			},
+
+			//Test #04: Attempt to create an announcement with a blank text. Expected false.
+
+			{
+				"user1", "", "", "editAnnouncement", "editDescription", IllegalArgumentException.class
+			},
+
+			//Test #05: Attempt to edit an announcement with null values. Expected false.
+
+			{
+				"user1", "testAnnouncement", "testDescription", null, null, IllegalArgumentException.class
+			},
 
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.Template(() testingData[i][0], (Class<?>) testingData[i][]);
+			this.Template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (Class<?>) testingData[i][5]);
 	}
 }

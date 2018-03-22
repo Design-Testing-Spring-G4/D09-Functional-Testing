@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Administrator;
 import domain.Answer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -71,18 +70,34 @@ public class AnswerServiceTest extends AbstractTest {
 	public void Driver() {
 
 		final Object testingData[][] = {
-					
-			//Test #01: . Expected true.
-			{, null},
-				
-			//Test #02: . Expected false.
-			{, IllegalArgumentException.class},
-				
-			//Test #03: . Expected false.
-			{, IllegalArgumentException.class}
+
+			//Test #01: Correct execution of test. Expected true.
+			{
+				"user1", "testAnswer", "editAnswer", null
+			},
+
+			//Test #02:  Attempt to execute the test by anonymous user. Expected false.
+			{
+				null, "testAnswer", "editAnswer", IllegalArgumentException.class
+			},
+
+			//Test #03:  Attempt to execute the test by unauthorized user. Expected false.
+			{
+				"manager1", "testAnswer", "editAnswer", IllegalArgumentException.class
+			},
+
+			//Test #04: Attempt to create a answer with blank text. Expected false.
+			{
+				"user1", "", "editAnswer", IllegalArgumentException.class
+			},
+
+			//Test #05: Attempt to edit a answer with null values. Expected false.
+			{
+				"user1", "testAnswer", null, IllegalArgumentException.class
+			}
 
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.Template(() testingData[i][0], (Class<?>) testingData[i][]);
+			this.Template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
 	}
 }
