@@ -1,8 +1,10 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -82,18 +84,59 @@ public class AdministratorServiceTest extends AbstractTest {
 	public void Driver() {
 
 		final Object testingData[][] = {
-					
-			//Test #01: . Expected true.
-			{, null},
-				
-			//Test #02: . Expected false.
-			{, IllegalArgumentException.class},
-				
-			//Test #03: . Expected false.
-			{, IllegalArgumentException.class}
 
+			//Test #01: Correct execution of test. Expected true.
+
+			{
+				"admin", "testAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(),
+				"editemail@alum.com", "editAdministrator", "editSurname", "editPhone", null
+			},
+
+			//Test #02: Attempt to execute the test by anonymous user. Expected false.
+
+			{
+				null, "testAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(),
+				"editemail@alum.com", "editAdministrator", "editSurname", "editPhone", IllegalArgumentException.class
+			},
+
+			//Test #03: Attempt to execute the test by unauthorized user. Expected false.
+
+			{
+				"user1", "testAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(),
+				"editemail@alum.com", "editAdministrator", "editSurname", "editPhone", ClassCastException.class
+			},
+
+			//Test #04: Attempt to create an administrator with blank text. Expected false.
+
+			{
+				"admin", "testAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "", "", "", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "editemail@alum.com", "editAdministrator",
+				"editSurname", "editPhone", IllegalArgumentException.class
+			},
+
+			//Test #05: Attempt to create an administrator with a future birth date. Expected false.
+
+			{
+				"admin", "testAddress", new GregorianCalendar(2030, Calendar.FEBRUARY, 11).getTime(), "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(),
+				"editemail@alum.com", "editAdministrator", "editSurname", "editPhone", IllegalArgumentException.class
+			},
+
+			//Test #06: Attempt to edit an administrator with a null birth date. Expected false.
+
+			{
+				"admin", "testAddress", null, "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "editemail@alum.com", "editAdministrator", "editSurname",
+				"editPhone", IllegalArgumentException.class
+			},
+
+			//Test #07: Attempt to edit an administrator with an invalid email. Expected true.
+
+			{
+				"admin", "testAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(),
+				"invalidEmail", "editAdministrator", "editSurname", "editPhone", IllegalArgumentException.class
+			},
 		};
+
 		for (int i = 0; i < testingData.length; i++)
-			this.Template(() testingData[i][0], (Class<?>) testingData[i][]);
+			this.Template((String) testingData[i][0], (String) testingData[i][1], (Date) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7],
+				(Date) testingData[i][8], (String) testingData[i][9], (String) testingData[i][10], (String) testingData[i][11], (String) testingData[i][12], (Class<?>) testingData[i][13]);
 	}
 }

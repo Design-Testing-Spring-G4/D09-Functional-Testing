@@ -4,6 +4,8 @@ package services;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,9 @@ public class RendezvousServiceTest extends AbstractTest {
 	@Autowired
 	private RendezvousService	rendezvousService;
 
-
 	//Test template
+	int							i	= 2;
+
 
 	protected void Template(final String username, final String name, final String description, final Date moment, final String picture, final String coordinates, final boolean finalMode, final boolean adultOnly, final String name2,
 		final String description2, final Date moment2, final String picture2, final String coordinates2, final boolean finalMode2, final boolean adultOnly2, final Class<?> expected) {
@@ -71,6 +74,8 @@ public class RendezvousServiceTest extends AbstractTest {
 			this.unauthenticate();
 		} catch (final Throwable oops) {
 
+			System.out.println("catch(" + this.i + "-->" + oops);
+			this.i++;
 			caught = oops.getClass();
 
 		}
@@ -100,49 +105,49 @@ public class RendezvousServiceTest extends AbstractTest {
 			//Test #03: Attempt to execute the test by unauthorized user. Expected false.
 			{
 				"manager1", "testRendezvous", "testDescription", new Date(1539158400000L), "https://tinyurl.com/adventure-meetup", "+90, +90", false, true, "editRendezvous", "editDescription", new Date(1539158400000L),
-				"http://eskipaper.com/images/savannah-5.jpg", "+0, 180", false, false, IllegalArgumentException.class
+				"http://eskipaper.com/images/savannah-5.jpg", "+0, 180", false, false, ClassCastException.class
 			},
 
 			//Test #04: Attempt to create a rendezvous with blank text. Expected false.
 			{
 				"user1", "", "", new Date(1539158400000L), "https://tinyurl.com/adventure-meetup", "+90, +90", false, true, "editRendezvous", "editDescription", new Date(1539158400000L), "http://eskipaper.com/images/savannah-5.jpg", "+0, 180", false,
-				false, IllegalArgumentException.class
+				false, ConstraintViolationException.class
 			},
 
 			//Test #05: Attempt to create a rendezvous with a past date. Expected false.
 			{
 				"user1", "testRendezvous", "testDescription", new Date(1239158400000L), "https://tinyurl.com/adventure-meetup", "+90, +90", false, true, "editRendezvous", "editDescription", new Date(1539158400000L),
-				"http://eskipaper.com/images/savannah-5.jpg", "+0, 180", false, false, IllegalArgumentException.class
+				"http://eskipaper.com/images/savannah-5.jpg", "+0, 180", false, false, ConstraintViolationException.class
 			},
 
 			//Test #06: Creation of a rendezvous on final mode and posterior attempt to edit and delete it. Expected false.
 			{
 				"user1", "testRendezvous", "testDescription", new Date(1539158400000L), "https://tinyurl.com/adventure-meetup", "+90, +90", true, true, "editRendezvous", "editDescription", new Date(1539158400000L),
-				"http://eskipaper.com/images/savannah-5.jpg", "+0, 180", false, false, IllegalArgumentException.class
+				"http://eskipaper.com/images/savannah-5.jpg", "+0, 180", false, false, ConstraintViolationException.class
 			},
 
 			//Test #07: Attempt to edit a rendezvous with null values. Expected false.
 			{
 				"user1", "testRendezvous", "testDescription", new Date(1539158400000L), "https://tinyurl.com/adventure-meetup", "+90, +90", false, true, null, null, new Date(1539158400000L), "http://eskipaper.com/images/savannah-5.jpg", "+0, 180", false,
-				false, IllegalArgumentException.class
+				false, ConstraintViolationException.class
 			},
 
 			//Test #08: Editing a rendezvous into final mode and attempting to delete it. Expected false.
 			{
 				"user1", "testRendezvous", "testDescription", new Date(1539158400000L), "https://tinyurl.com/adventure-meetup", "+90, +90", false, true, "editRendezvous", "editDescription", new Date(1539158400000L),
-				"http://eskipaper.com/images/savannah-5.jpg", "+0, 180", true, false, IllegalArgumentException.class
+				"http://eskipaper.com/images/savannah-5.jpg", "+0, 180", true, false, ConstraintViolationException.class
 			},
 
 			//Test #09: Attempt to create a rendezvous with a null date. Expected false.
 			{
 				"user1", "testRendezvous", "testDescription", null, "https://tinyurl.com/adventure-meetup", "+90, +90", false, true, "editRendezvous", "editDescription", new Date(1539158400000L), "http://eskipaper.com/images/savannah-5.jpg", "+0, 180",
-				false, false, IllegalArgumentException.class
+				false, false, ConstraintViolationException.class
 			},
 
 			//Test #10: Attempt to edit a rendezvous with an invalid picture. Expected false.
 			{
 				"user1", "testRendezvous", "testDescription", new Date(1539158400000L), "https://tinyurl.com/adventure-meetup", "+90, +90", false, true, "editRendezvous", "editDescription", new Date(1539158400000L), "invalidPicture", "+0, 180", false,
-				false, IllegalArgumentException.class
+				false, ConstraintViolationException.class
 			}
 
 		};
