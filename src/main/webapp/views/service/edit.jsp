@@ -71,6 +71,7 @@
 	
 	<%-- Buttons --%>
 	
+	<br/>
 	<input type="submit" name="save" value="${save}" /> 
 	
 	<input type="button" name="cancel" value="${cancel}"

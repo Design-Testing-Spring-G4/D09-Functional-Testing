@@ -78,35 +78,21 @@ public class RequestServiceTest extends AbstractTest {
 	public void Driver() {
 
 		final Object testingData[][] = {
-			//String username, String comments, String comments2, Class<?> expected		
+
 			//Test #01: Correct execution of test. Expected true.
 			{
-				"user1", "This is a test", "This is a test", null
+				"user2", "This is a test", "This is a test", null
+			},
+
+			//Test #03: Attempt to execute the test by anonymous user. Expected false.
+			{
+				null, "This is a test", "This is a test", IllegalArgumentException.class
+			},
+
+			//Test #04: Attempt to execute the test by unauthorized user. Expected false.
+			{
+				"manager1", "This is a test", "This is a test", ClassCastException.class
 			}
-
-		//			//Test #02: Correct update of comments. Expected true.
-		//			{
-		//				"user1", "This is a test", "This is a update test", null
-		//			},
-		//
-		//			//Test #03: Attempt to execute the test by anonymous user. Expected false.
-		//			{
-		//				null, "This is a test", "This is a test", IllegalArgumentException.class
-		//			},
-		//
-		//			//Test #04: Attempt to execute the test by unauthorized user. Expected false.
-		//			{
-		//				"manager1", "This is a test", "This is a test", IllegalArgumentException.class
-		//			}
-
-		//			//Test #05: Attempt to create a request with a invalid credit card. Expected false.
-		//			{"user1", "This is a test", "This is a test", IllegalArgumentException.class},
-		//			//Test #04: Attempt to execute the test by unauthorized user. Expected false.
-		//			{"user1", "This is a test", "This is a test", IllegalArgumentException.class},
-		//			//Test #04: Attempt to execute the test by unauthorized user. Expected false.
-		//			{"user1", "This is a test", "This is a test", IllegalArgumentException.class},
-		//			//Test #04: Attempt to execute the test by unauthorized user. Expected false.
-		//			{"user1", "This is a test", "This is a test", IllegalArgumentException.class},
 
 		};
 		for (int i = 0; i < testingData.length; i++)

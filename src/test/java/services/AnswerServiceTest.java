@@ -3,6 +3,8 @@ package services;
 
 import java.util.Collection;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,24 +78,14 @@ public class AnswerServiceTest extends AbstractTest {
 				"user1", "testAnswer", "editAnswer", null
 			},
 
-			//Test #02:  Attempt to execute the test by anonymous user. Expected false.
+			//Test #03: Attempt to create an answer with a null value. Expected false.
 			{
-				null, "testAnswer", "editAnswer", IllegalArgumentException.class
+				"user1", null, "editAnswer", ConstraintViolationException.class
 			},
 
-			//Test #03:  Attempt to execute the test by unauthorized user. Expected false.
+			//Test #02: Attempt to edit an answer with a null value. Expected false.
 			{
-				"manager1", "testAnswer", "editAnswer", IllegalArgumentException.class
-			},
-
-			//Test #04: Attempt to create a answer with blank text. Expected false.
-			{
-				"user1", "", "editAnswer", IllegalArgumentException.class
-			},
-
-			//Test #05: Attempt to edit a answer with null values. Expected false.
-			{
-				"user1", "testAnswer", null, IllegalArgumentException.class
+				"user1", "testAnswer", null, ConstraintViolationException.class
 			}
 
 		};

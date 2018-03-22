@@ -33,9 +33,10 @@
 <spring:message code="service.cancel" var="cancel" />
 <spring:message code="service.create" var="create" />
 <spring:message code="service.return" var="msgReturn" />
+<spring:message code="service.request" var="request" />
 
 <%-- Listing grid --%>
-<security:authorize access="permitAll()">
+<security:authorize access="isAuthenticated()">
 
 <display:table pagesize="5" class="displaytag" keepStatus="false"
 	name="services" requestURI="${requestURI}" id="row">
@@ -50,45 +51,59 @@
 	
 	<display:column property="cancelled" title="${cancelled}" sortable="true" />
 	
-	<display:column property="manager" title="${manager}" sortable="true" />
+	<display:column property="manager.userAccount.username" title="${manager}" sortable="true" />
 
 	<%-- Links towards edition, display and others --%>
+	
+	<security:authorize access="hasRole('USER')">
+	
+		<spring:url var="requestUrl" value="request/user/create.do">
+			<spring:param name="varId" value="${row.id}" />
+		</spring:url>
+		
+		<display:column>
+			<a href="${requestUrl}"><jstl:out value="${request}" /></a>
+		</display:column>
+	
+	</security:authorize>
 
 	<security:authorize access="hasRole('MANAGER')">
 
-	<spring:url var="editUrl" value="service/manager/edit.do">
-		<spring:param name="varId" value="${row.id}" />
-	</spring:url>
-
-	<jstl:if test="${requestURI == 'service/manager/list.do'}">
-		<display:column>
-			<a href="${editUrl}"><jstl:out value="${edit}" /></a>
-		</display:column>
-	</jstl:if>
+		<spring:url var="editUrl" value="service/manager/edit.do">
+			<spring:param name="varId" value="${row.id}" />
+		</spring:url>
 	
-	<spring:url var="deleteUrl" value="service/manager/delete.do">
-		<spring:param name="varId" value="${row.id}" />
-	</spring:url>
-	
-	<jstl:if test="${requestURI == 'service/manager/list.do'}">
-		<display:column>
-			<a href="${deleteUrl}"><jstl:out value="${delete}" /></a>
-		</display:column>
-	</jstl:if>
-	
-</security:authorize>
-	
-<security:authorize access="hasRole('ADMIN')">
-
-	<spring:url var="cancelUrl"	value="service/administrator/cancel.do">
-		<spring:param name="varId" value="${row.id}" />
-	</spring:url>
-
-	<display:column>
-		<a href="${cancelUrl}"><jstl:out value="${cancel}" /></a>
-	</display:column>
+		<jstl:if test="${requestURI == 'service/manager/list.do'}">
+			<display:column>
+				<a href="${editUrl}"><jstl:out value="${edit}" /></a>
+			</display:column>
+		</jstl:if>
 		
-</security:authorize>
+		<spring:url var="deleteUrl" value="service/manager/delete.do">
+			<spring:param name="varId" value="${row.id}" />
+		</spring:url>
+		
+		<jstl:if test="${requestURI == 'service/manager/list.do'}">
+			<display:column>
+				<a href="${deleteUrl}"><jstl:out value="${delete}" /></a>
+			</display:column>
+		</jstl:if>
+	
+	</security:authorize>
+	
+	<security:authorize access="hasRole('ADMIN')">
+	
+		<spring:url var="cancelUrl"	value="service/administrator/cancel.do">
+			<spring:param name="varId" value="${row.id}" />
+		</spring:url>
+	
+		<display:column>
+			<jstl:if test="${row.cancelled == false}">
+				<a href="${cancelUrl}"><jstl:out value="${cancel}" /></a>
+			</jstl:if>
+		</display:column>
+			
+	</security:authorize>
 </display:table>
 
 <security:authorize access="hasRole('MANAGER')">

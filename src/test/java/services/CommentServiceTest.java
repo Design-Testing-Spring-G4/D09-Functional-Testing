@@ -85,29 +85,11 @@ public class CommentServiceTest extends AbstractTest {
 				null, "testComment", "http://eskipaper.com/images/savannah-5.jpg", "editComment", "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
 			},
 
-			//Test #03: Attempt to execute the test by unauthorized user. Expected false.
+			//Test #02: Attempt to execute the test by unauthorized user. Expected false.
 
 			{
-				"manager1", "testComment", "http://eskipaper.com/images/savannah-5.jpg", "editComment", "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
-			},
-
-			//Test #04: Attempt to create a comment with blank text. Expected false.
-
-			{
-				"user1", "", "http://eskipaper.com/images/savannah-5.jpg", "editComment", "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
-			},
-
-			//Test #05: Attempt to edit a comment with an invalid picture. Expected false.
-
-			{
-				"user1", "testComment", "http://eskipaper.com/images/savannah-5.jpg", "editComment", "invalidPicture", IllegalArgumentException.class
-			},
-
-			//Test #06: Attempt to edit a comment with null values. Expected false.
-
-			{
-				"user1", "testComment", "http://eskipaper.com/images/savannah-5.jpg", null, "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
-			},
+				"manager1", "testComment", "http://eskipaper.com/images/savannah-5.jpg", "editComment", "https://tinyurl.com/adventure-meetup", ClassCastException.class
+			}
 
 		};
 		for (int i = 0; i < testingData.length; i++)

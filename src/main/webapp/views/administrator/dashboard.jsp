@@ -34,6 +34,13 @@
 <spring:message code="administrator.querya1" var="querya1" />
 <spring:message code="administrator.querya2" var="querya2" />
 <spring:message code="administrator.querya3" var="querya3" />
+<spring:message code="administrator.query2c1" var="query2c1" />
+<spring:message code="administrator.query2c2" var="query2c2" />
+<spring:message code="administrator.query2c3" var="query2c3" />
+<spring:message code="administrator.query2b1" var="query2b1" />
+<spring:message code="administrator.query2b2" var="query2b2" />
+<spring:message code="administrator.query2b3" var="query2b3" />
+<spring:message code="administrator.query2b4" var="query2b4" />
 <spring:message code="administrator.return" var="returnMsg" />
 
 <security:authorize access="hasRole('ADMIN')">
@@ -88,6 +95,34 @@
 		<tr>
 			<td><jstl:out value="${querya3}" /></td>
 			<td><jstl:out value="${avgStddevRepliesPerComment}" /></td>
+		</tr>
+		<tr>
+			<td><jstl:out value="${query2c1}" /></td>
+			<td><jstl:out value="${bestSellingServices}" /></td>
+		</tr>
+		<tr>
+			<td><jstl:out value="${query2c2}" /></td>
+			<td><jstl:out value="${managerWithAboveAverageServices}" /></td>
+		</tr>
+		<tr>
+			<td><jstl:out value="${query2c3}" /></td>
+			<td><jstl:out value="${managerWithMoreServiceCancelled}" /></td>
+		</tr>
+		<tr>
+			<td><jstl:out value="${query2b1}" /></td>
+			<td><jstl:out value="${avgCategoriesPerRendezvous}" /></td>
+		</tr>
+		<tr>
+			<td><jstl:out value="${query2b2}" /></td>
+			<td><jstl:out value="${avgRatioServiceByCategory}" /></td>
+		</tr>
+		<tr>
+			<td><jstl:out value="${query2b3}" /></td>
+			<td><jstl:out value="${avgMinMaxStddevRequestsPerRendezvous}" /></td>
+		</tr>
+		<tr>
+			<td><jstl:out value="${query2b4}" /></td>
+			<td><jstl:out value="${topSellingServices}" /></td>
 		</tr>
 	</table>
 

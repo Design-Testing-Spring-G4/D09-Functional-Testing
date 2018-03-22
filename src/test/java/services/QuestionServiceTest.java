@@ -3,6 +3,8 @@ package services;
 
 import java.util.Collection;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,27 +75,17 @@ public class QuestionServiceTest extends AbstractTest {
 
 			//Test #01: Correct execution of test. Expected true.
 			{
-				"user1", "testQuestion", "testQuestion", null
+				"user2", "testQuestion", "testQuestion", null
 			},
 
-			//Test #02:  Attempt to execute the test by anonymous user. Expected false.
+			//Test #02: Attempt to execute the test by anonymous user. Expected false.
 			{
 				null, "testQuestion", "testQuestion", IllegalArgumentException.class
 			},
 
-			//Test #03:  Attempt to execute the test by unauthorized user. Expected false.
+			//Test #03: Attempt to edit a question with null values. Expected false.
 			{
-				"manager1", "testQuestion", "testQuestion", IllegalArgumentException.class
-			},
-
-			//Test #04: Attempt to create a question with blank text. Expected false.
-			{
-				"user1", "", "testQuestion", IllegalArgumentException.class
-			},
-
-			//Test #05: Attempt to edit a question with null values. Expected false.
-			{
-				"user1", "testQuestion", null, IllegalArgumentException.class
+				"user2", null, "testQuestion", ConstraintViolationException.class
 			}
 
 		};

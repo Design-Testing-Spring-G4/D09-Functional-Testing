@@ -57,7 +57,8 @@ public class AdministratorService {
 		Assert.notNull(administrator);
 
 		//Assertion that the user modifying this administrator has the correct privilege.
-		Assert.isTrue(this.actorService.findByPrincipal().getId() == administrator.getId());
+		if (administrator.getId() != 0)
+			Assert.isTrue(this.actorService.findByPrincipal().getId() == administrator.getId());
 
 		final Administrator saved = this.administratorRepository.save(administrator);
 

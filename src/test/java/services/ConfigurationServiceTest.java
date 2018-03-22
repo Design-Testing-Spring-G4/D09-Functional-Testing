@@ -3,6 +3,8 @@ package services;
 
 import java.util.Collection;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,19 +85,14 @@ public class ConfigurationServiceTest extends AbstractTest {
 				"admin", "testConfiguration", "http://eskipaper.com/images/savannah-5.jpg", "testWelcomeEN", "testWelcomeES", "editConfiguration", "https://tinyurl.com/adventure-meetup", "testwelcomeEN2", "testWelcomeES2", null
 			},
 
-			//Test #02: Attempt to execute the test by anonymous user. Expected false.
+			//Test #02: Attempt to create a configuration with a blank company name. Expected false.
 			{
-				null, "testConfiguration", "http://eskipaper.com/images/savannah-5.jpg", "testWelcomeEN", "testWelcomeES", "editConfiguration", "https://tinyurl.com/adventure-meetup", "testwelcomeEN2", "testWelcomeES2", IllegalArgumentException.class
+				"admin", "", "http://eskipaper.com/images/savannah-5.jpg", "testWelcomeEN", "testWelcomeES", "editConfiguration", "https://tinyurl.com/adventure-meetup", "testwelcomeEN2", "testWelcomeES2", ConstraintViolationException.class
 			},
 
-			//Test #03: Attempt to execute the test by unauthorized user. Expected false.
+			//Test #03: Attempt to edit a configuration with a blank company name. Expected false.
 			{
-				"user1", "testConfiguration", "http://eskipaper.com/images/savannah-5.jpg", "testWelcomeEN", "testWelcomeES", "editConfiguration", "https://tinyurl.com/adventure-meetup", "testwelcomeEN2", "testWelcomeES2", IllegalArgumentException.class
-			},
-
-			//Test #04: Attempt to edit a configuration with a invalid banner. Expected false.
-			{
-				"admin", "testConfiguration", "http://eskipaper.com/images/savannah-5.jpg", "testWelcomeEN", "testWelcomeES", "editConfiguration", "invalidBanner", "testwelcomeEN2", "testWelcomeES2", IllegalArgumentException.class
+				"admin", "testConfiguration", "http://eskipaper.com/images/savannah-5.jpg", "testWelcomeEN", "testWelcomeES", "", "https://tinyurl.com/adventure-meetup", "testwelcomeEN2", "testWelcomeES2", ConstraintViolationException.class
 			},
 
 		};

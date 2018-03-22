@@ -33,7 +33,7 @@ public class AdministratorServiceTest extends AbstractTest {
 	//Test template
 
 	protected void Template(final String username, final String address, final Date birthDate, final String email, final String name, final String surname, final String phone, final String address2, final Date birthDate2, final String email2,
-		final String name2, final String surname2, final String phone2, final Class<?> expected) {
+		final String name2, final String surname2, final String phone2, final String username2, final Class<?> expected) {
 		Class<?> caught = null;
 
 		try {
@@ -47,7 +47,12 @@ public class AdministratorServiceTest extends AbstractTest {
 			administrator.setName(name);
 			administrator.setSurname(surname);
 			administrator.setPhone(phone);
+			administrator.getUserAccount().setUsername(username2);
+			administrator.getUserAccount().setPassword(username2);
 			final Administrator saved = this.administratorService.save(administrator);
+
+			this.unauthenticate();
+			this.authenticate(username2);
 
 			//Listing
 			Collection<Administrator> cl = this.administratorService.findAll();
@@ -86,57 +91,27 @@ public class AdministratorServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 
 			//Test #01: Correct execution of test. Expected true.
-
 			{
 				"admin", "testAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(),
-				"editemail@alum.com", "editAdministrator", "editSurname", "editPhone", null
+				"editemail@alum.com", "editAdministrator", "editSurname", "editPhone", "admin9", null
 			},
 
-			//Test #02: Attempt to execute the test by anonymous user. Expected false.
-
-			{
-				null, "testAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(),
-				"editemail@alum.com", "editAdministrator", "editSurname", "editPhone", IllegalArgumentException.class
-			},
-
-			//Test #03: Attempt to execute the test by unauthorized user. Expected false.
-
-			{
-				"user1", "testAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(),
-				"editemail@alum.com", "editAdministrator", "editSurname", "editPhone", ClassCastException.class
-			},
-
-			//Test #04: Attempt to create an administrator with blank text. Expected false.
-
-			{
-				"admin", "testAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "", "", "", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "editemail@alum.com", "editAdministrator",
-				"editSurname", "editPhone", IllegalArgumentException.class
-			},
-
-			//Test #05: Attempt to create an administrator with a future birth date. Expected false.
-
-			{
-				"admin", "testAddress", new GregorianCalendar(2030, Calendar.FEBRUARY, 11).getTime(), "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(),
-				"editemail@alum.com", "editAdministrator", "editSurname", "editPhone", IllegalArgumentException.class
-			},
-
-			//Test #06: Attempt to edit an administrator with a null birth date. Expected false.
-
-			{
-				"admin", "testAddress", null, "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "editemail@alum.com", "editAdministrator", "editSurname",
-				"editPhone", IllegalArgumentException.class
-			},
-
-			//Test #07: Attempt to edit an administrator with an invalid email. Expected true.
-
+			//Test #02: Attempt to save an administrator without proper credentials. Expected false.
 			{
 				"admin", "testAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(), "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(),
-				"invalidEmail", "editAdministrator", "editSurname", "editPhone", IllegalArgumentException.class
+				"editemail@alum.com", "editAdministrator", "editSurname", "editPhone", null, IllegalArgumentException.class
 			},
+
+			//Test #03: Attempt to create an administrator with a future birth date. Expected false.
+			{
+				"admin9", "testAddress", new GregorianCalendar(2030, Calendar.FEBRUARY, 11).getTime(), "testemail@alum.com", "testAdministrator", "testSurname", "testPhone", "editAddress", new GregorianCalendar(2010, Calendar.FEBRUARY, 11).getTime(),
+				"editemail@alum.com", "editAdministrator", "editSurname", "editPhone", "admin9", IllegalArgumentException.class
+			}
+
 		};
 
 		for (int i = 0; i < testingData.length; i++)
 			this.Template((String) testingData[i][0], (String) testingData[i][1], (Date) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7],
-				(Date) testingData[i][8], (String) testingData[i][9], (String) testingData[i][10], (String) testingData[i][11], (String) testingData[i][12], (Class<?>) testingData[i][13]);
+				(Date) testingData[i][8], (String) testingData[i][9], (String) testingData[i][10], (String) testingData[i][11], (String) testingData[i][12], (String) testingData[i][13], (Class<?>) testingData[i][14]);
 	}
 }

@@ -3,6 +3,8 @@ package services;
 
 import java.util.Collection;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,29 +97,11 @@ public class ServiceServiceTest extends AbstractTest {
 				null, "testService", "testDescription", "http://eskipaper.com/images/savannah-5.jpg", "editService", "editDescription", "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
 			},
 
-			//Test #03: Attempt to execute the test by unauthorized user. Expected false.
-
-			{
-				"user1", "testService", "testDescription", "http://eskipaper.com/images/savannah-5.jpg", "editService", "editDescription", "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
-			},
-
 			//Test #04: Attempt to create a service with blank text. Expected false.
 
 			{
-				"manager1", "", "", "http://eskipaper.com/images/savannah-5.jpg", "editService", "editDescription", "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
-			},
-
-			//Test #07: Attempt to edit a service with null values. Expected false.
-
-			{
-				"manager1", "testService", "testDescription", "http://eskipaper.com/images/savannah-5.jpg", null, null, "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
-			},
-
-			//Test #05: Attempt to edit a service with a invalid url. Expected false.
-
-			{
-				"manager1", "testService", "testDescription", "http://eskipaper.com/images/savannah-5.jpg", "editService", "editDescription", "invalidUrl", IllegalArgumentException.class
-			},
+				"manager1", "", "", "http://eskipaper.com/images/savannah-5.jpg", "editService", "editDescription", "https://tinyurl.com/adventure-meetup", ConstraintViolationException.class
+			}
 
 		};
 

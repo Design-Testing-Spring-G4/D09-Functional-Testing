@@ -3,6 +3,8 @@ package services;
 
 import java.util.Collection;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,28 +89,14 @@ public class AnnouncementServiceTest extends AbstractTest {
 			},
 
 			//Test #02: Attempt to execute the test by anonymous user. Expected false.
-
 			{
 				null, "testAnnouncement", "testDescription", "editAnnouncement", "editDescription", IllegalArgumentException.class
 			},
 
-			//Test #03: Attempt to execute the test by anonymous user. Expected false.
-
+			//Test #03: Attempt to create an announcement with blank values. Expected false.
 			{
-				"manager1", "testAnnouncement", "testDescription", "editAnnouncement", "editDescription", IllegalArgumentException.class
-			},
-
-			//Test #04: Attempt to create an announcement with a blank text. Expected false.
-
-			{
-				"user1", "", "", "editAnnouncement", "editDescription", IllegalArgumentException.class
-			},
-
-			//Test #05: Attempt to edit an announcement with null values. Expected false.
-
-			{
-				"user1", "testAnnouncement", "testDescription", null, null, IllegalArgumentException.class
-			},
+				"user1", "", "", "editAnnouncement", "editDescription", ConstraintViolationException.class
+			}
 
 		};
 		for (int i = 0; i < testingData.length; i++)

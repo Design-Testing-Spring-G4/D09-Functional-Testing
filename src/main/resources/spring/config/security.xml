@@ -42,8 +42,8 @@
 		<security:intercept-url pattern="/announcement/**" access="permitAll" requires-channel="https"/>
 		<security:intercept-url pattern="/category/**" access="permitAll" requires-channel="https"/>
 		<security:intercept-url pattern="/manager/**" access="permitAll" requires-channel="https"/>
-		<security:intercept-url pattern="/service/**" access="permitAll" requires-channel="https"/>
 		
+		<security:intercept-url pattern="/service/**" access="isAuthenticated()" requires-channel="https"/>
 		<security:intercept-url pattern="/comment/**" access="isAuthenticated()" requires-channel="https"/>
 		
 		<security:intercept-url pattern="/security/login.do" access="permitAll" requires-channel="https"/> 

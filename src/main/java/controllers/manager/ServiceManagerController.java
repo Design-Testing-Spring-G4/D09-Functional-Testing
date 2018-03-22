@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.CategoryService;
 import services.ServiceService;
 import controllers.AbstractController;
+import domain.Category;
 import domain.Manager;
 import domain.Service;
 
@@ -31,6 +33,9 @@ public class ServiceManagerController extends AbstractController {
 
 	@Autowired
 	private ActorService	actorService;
+
+	@Autowired
+	private CategoryService	categoryService;
 
 
 	//Listing	
@@ -97,29 +102,15 @@ public class ServiceManagerController extends AbstractController {
 	public ModelAndView save(@Valid final Service service, final BindingResult binding) {
 		ModelAndView result;
 
-		if (binding.hasErrors()) {
-			System.out.println("Error: " + binding.getAllErrors());
+		if (binding.hasErrors())
 			result = this.createEditModelAndView(service);
-		} else
+		else
 			try {
 				this.serviceService.save(service);
-				result = new ModelAndView("redirect:list.do");
+				result = new ModelAndView("redirect:/service/manager/list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(service, "service.commit.error");
 			}
-		return result;
-	}
-
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@Valid final Service service, final BindingResult binding) {
-		ModelAndView result;
-
-		try {
-			this.serviceService.delete(service);
-			result = new ModelAndView("redirect:/rendezvous/user/list.do");
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(service, "service.commit.error");
-		}
 		return result;
 	}
 
@@ -135,11 +126,13 @@ public class ServiceManagerController extends AbstractController {
 
 	protected ModelAndView createEditModelAndView(final Service service, final String messageCode) {
 		ModelAndView result;
+		final Collection<Category> categories = this.categoryService.findAll();
 
 		result = new ModelAndView("service/edit");
 		result.addObject("service", service);
+		result.addObject("categories", categories);
 		result.addObject("message", messageCode);
-		result.addObject("requestURI", "service/Manager/edit.do");
+		result.addObject("requestURI", "service/manager/edit.do");
 
 		return result;
 

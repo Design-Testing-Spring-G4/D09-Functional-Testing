@@ -62,6 +62,7 @@ public class ServiceService {
 		return saved;
 	}
 
+	//Controller-specific save for cancellation.
 	public domain.Service saveInternal(final domain.Service s) {
 		Assert.notNull(s);
 		final domain.Service saved = this.serviceRepository.save(s);

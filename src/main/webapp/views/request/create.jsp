@@ -39,16 +39,7 @@
 	
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	
-	<form:label path="service">
-		<jstl:out value="${service}" />:
-	</form:label>
-	
-	<form:select path="service">
-		<form:option label="----" value="0" />
-		<form:options items="${services}" itemLabel="name"/>
-	</form:select>
-		<form:errors cssClass="error" path="service" />
+	<form:hidden path="service" />
 		
 	<form:label path="rendezvous">
 		<jstl:out value="${rendezvous}" />:
@@ -59,6 +50,7 @@
 		<form:options items="${rendezvouses}" itemLabel="name"/>
 	</form:select>
 		<form:errors cssClass="error" path="rendezvous" />
+	<br />
 		
 	<form:label path="creditCard.holder">
 		<jstl:out value="${ccHolder}" />:
@@ -114,7 +106,7 @@
 	<input type="submit" name="save" value="${save}" />
 	
 	<input type="button" name="cancel" value="${cancel}"
-		onclick="javascript: relativeRedir('service/list.do');" />
+		onclick="javascript: relativeRedir('service/actor/list.do');" />
 		
 </form:form>
 </security:authorize>

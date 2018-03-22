@@ -64,6 +64,8 @@
 									code="master.page.dashboard" /></a></li>
 						<li><a href="category/administrator/list.do"><spring:message
 									code="master.page.categoryList" /></a></li>
+						<li><a href="configuration/administrator/edit.do"><spring:message
+									code="master.page.configuration" /></a></li>
 					</security:authorize>
 
 					<li><a href="j_spring_security_logout"><spring:message
@@ -82,12 +84,14 @@
 			<li><a href="rendezvous/listCategory.do?varId=0"><spring:message
 						code="master.page.rendezvousCategory" /></a></li>
 		</security:authorize>
-
-	</ul>
-	<security:authorize access="isAuthenticated()">
+		
+		<security:authorize access="isAuthenticated()">
 		<li><a class="fNiv" href="service/actor/list.do"><spring:message
 						code="master.page.serviceList" /></a></li>	
 		</security:authorize>
+
+	</ul>
+	
 	<a href="?language=en">en</a> | <a href="?language=es">es</a>
 </div>
 <div>

@@ -3,6 +3,8 @@ package services;
 
 import java.util.Collection;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,28 +83,16 @@ public class CategoryServiceTest extends AbstractTest {
 				"admin", "testCategory", "testDescription", "editCategory", "editDescription", null
 			},
 
-			//Test #02: Attempt to execute the test by anonymous user. Expected false.
-
-			{
-				null, "testCategory", "testDescription", "editCategory", "editDescription", IllegalArgumentException.class
-			},
-
-			//Test #03: Attempt to execute the test by unauthorized user. Expected false.
-
-			{
-				"user1", "testCategory", "testDescription", "editCategory", "editDescription", IllegalArgumentException.class
-			},
-
 			//Test #04: Attempt to create a category with blank text. Expected false.
 
 			{
-				"admin", "", "", "editCategory", "editDescription", IllegalArgumentException.class
+				"admin", "", "", "editCategory", "editDescription", ConstraintViolationException.class
 			},
 
 			//Test #05: Attempt to edit a category with null values. Expected false.
 
 			{
-				"admin", "testCategory", "testDescription", null, null, IllegalArgumentException.class
+				"admin", "testCategory", "testDescription", null, null, ConstraintViolationException.class
 			},
 
 		};

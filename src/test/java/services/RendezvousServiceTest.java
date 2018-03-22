@@ -29,9 +29,8 @@ public class RendezvousServiceTest extends AbstractTest {
 	@Autowired
 	private RendezvousService	rendezvousService;
 
-	//Test template
-	int							i	= 2;
 
+	//Test template
 
 	protected void Template(final String username, final String name, final String description, final Date moment, final String picture, final String coordinates, final boolean finalMode, final boolean adultOnly, final String name2,
 		final String description2, final Date moment2, final String picture2, final String coordinates2, final boolean finalMode2, final boolean adultOnly2, final Class<?> expected) {
@@ -74,8 +73,6 @@ public class RendezvousServiceTest extends AbstractTest {
 			this.unauthenticate();
 		} catch (final Throwable oops) {
 
-			System.out.println("catch(" + this.i + "-->" + oops);
-			this.i++;
 			caught = oops.getClass();
 
 		}
