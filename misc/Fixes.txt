@@ -1,0 +1,22 @@
+Requisitos defectuosos:
+-Al modificar datos personales, la comprobación del tamaño de username/password lanza un panic. Solucionado
+lanzando un redirect.
+-Comprobaciones de teléfono no funcionan. Solucionado mediante comprobación Javascript en los jsp.
+
+Requisitos omitidos:
+-Añadido método para comprobaciones de spam en ActorService, y comprobaciones
+	en los siguientes servicios de publicación de textos:
+	-Application
+	-Audit
+	-Contact
+	-EducationRecord
+	-EndorserRecord
+	-Note
+	-PersonalRecord
+	-ProfessionalRecord
+	-SocialIdentity
+	-Sponsorship
+	-Stage
+	-Story
+	-SurvivalClass
+-Añadido menú donde el explorer pueda ver sus stories.
