@@ -82,18 +82,46 @@ public class ServiceServiceTest extends AbstractTest {
 	public void Driver() {
 
 		final Object testingData[][] = {
-					
-			//Test #01: . Expected true.
-			{, null},
-				
-			//Test #02: . Expected false.
-			{, IllegalArgumentException.class},
-				
-			//Test #03: . Expected false.
-			{, IllegalArgumentException.class}
+
+			//Test #01: Correct execution of test. Expected true.
+
+			{
+				"manager1", "testService", "testDescription", "http://eskipaper.com/images/savannah-5.jpg", "editService", "editDescription", "https://tinyurl.com/adventure-meetup", null
+			},
+
+			//Test #02: Attempt to execute the test by anonymous user. Expected false.
+
+			{
+				null, "testService", "testDescription", "http://eskipaper.com/images/savannah-5.jpg", "editService", "editDescription", "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
+			},
+
+			//Test #03: Attempt to execute the test by unauthorized user. Expected false.
+
+			{
+				"user1", "testService", "testDescription", "http://eskipaper.com/images/savannah-5.jpg", "editService", "editDescription", "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
+			},
+
+			//Test #04: Attempt to create a service with blank text. Expected false.
+
+			{
+				"manager1", "", "", "http://eskipaper.com/images/savannah-5.jpg", "editService", "editDescription", "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
+			},
+
+			//Test #07: Attempt to edit a service with null values. Expected false.
+
+			{
+				"manager1", "testService", "testDescription", "http://eskipaper.com/images/savannah-5.jpg", null, null, "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
+			},
+
+			//Test #05: Attempt to create a service with a invalid url. Expected false.
+
+			{
+				"manager1", "testService", "testDescription", "http://eskipaper.com/images/savannah-5.jpg", "editService", "editDescription", "invalidUrl", IllegalArgumentException.class
+			},
 
 		};
+
 		for (int i = 0; i < testingData.length; i++)
-			this.Template(() testingData[i][0], (Class<?>) testingData[i][]);
+			this.Template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (Class<?>) testingData[i][7]);
 	}
 }
