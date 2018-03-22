@@ -88,12 +88,12 @@ public class QuestionServiceTest extends AbstractTest {
 
 			//Test #04: Attempt to create a question with blank text. Expected false.
 			{
-				"manager1", "", "testQuestion", IllegalArgumentException.class
+				"user1", "", "testQuestion", IllegalArgumentException.class
 			},
 
-			//Test #05: Attempt to create a question with null values. Expected false.
+			//Test #05: Attempt to edit a question with null values. Expected false.
 			{
-				"manager1", "testQuestion", null, IllegalArgumentException.class
+				"user1", "testQuestion", null, IllegalArgumentException.class
 			}
 
 		};

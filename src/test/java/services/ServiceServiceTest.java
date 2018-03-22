@@ -113,7 +113,7 @@ public class ServiceServiceTest extends AbstractTest {
 				"manager1", "testService", "testDescription", "http://eskipaper.com/images/savannah-5.jpg", null, null, "https://tinyurl.com/adventure-meetup", IllegalArgumentException.class
 			},
 
-			//Test #05: Attempt to create a service with a invalid url. Expected false.
+			//Test #05: Attempt to edit a service with a invalid url. Expected false.
 
 			{
 				"manager1", "testService", "testDescription", "http://eskipaper.com/images/savannah-5.jpg", "editService", "editDescription", "invalidUrl", IllegalArgumentException.class

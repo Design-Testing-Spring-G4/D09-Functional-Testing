@@ -3,7 +3,6 @@ package services;
 
 import java.util.Collection;
 
-import org.hibernate.engine.config.spi.ConfigurationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,18 +77,31 @@ public class ConfigurationServiceTest extends AbstractTest {
 	public void Driver() {
 
 		final Object testingData[][] = {
-					
-			//Test #01: . Expected true.
-			{, null},
-				
-			//Test #02: . Expected false.
-			{, IllegalArgumentException.class},
-				
-			//Test #03: . Expected false.
-			{, IllegalArgumentException.class}
+
+			//Test #01: Correct execution of test. Expected true.
+			{
+				"admin", "testConfiguration", "http://eskipaper.com/images/savannah-5.jpg", "testWelcomeEN", "testWelcomeES", "editConfiguration", "https://tinyurl.com/adventure-meetup", "testwelcomeEN2", "testWelcomeES2", null
+			},
+
+			//Test #02: Attempt to execute the test by anonymous user. Expected false.
+			{
+				null, "testConfiguration", "http://eskipaper.com/images/savannah-5.jpg", "testWelcomeEN", "testWelcomeES", "editConfiguration", "https://tinyurl.com/adventure-meetup", "testwelcomeEN2", "testWelcomeES2", IllegalArgumentException.class
+			},
+
+			//Test #03: Attempt to execute the test by unauthorized user. Expected false.
+			{
+				"user1", "testConfiguration", "http://eskipaper.com/images/savannah-5.jpg", "testWelcomeEN", "testWelcomeES", "editConfiguration", "https://tinyurl.com/adventure-meetup", "testwelcomeEN2", "testWelcomeES2", IllegalArgumentException.class
+			},
+
+			//Test #04: Attempt to edit a configuration with a invalid banner. Expected false.
+			{
+				"admin", "testConfiguration", "http://eskipaper.com/images/savannah-5.jpg", "testWelcomeEN", "testWelcomeES", "editConfiguration", "invalidBanner", "testwelcomeEN2", "testWelcomeES2", IllegalArgumentException.class
+			},
 
 		};
+
 		for (int i = 0; i < testingData.length; i++)
-			this.Template(() testingData[i][0], (Class<?>) testingData[i][]);
+			this.Template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (String) testingData[i][7],
+				(String) testingData[i][8], (Class<?>) testingData[i][9]);
 	}
 }
