@@ -79,4 +79,8 @@ public class CategoryService {
 
 	}
 
+	public Double avgRatioServiceByCategory() {
+		return 1.0 / this.categoryRepository.avgRatioServiceByCategory();
+	}
+
 }

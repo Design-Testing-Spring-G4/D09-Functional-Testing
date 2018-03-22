@@ -85,4 +85,13 @@ public class ManagerService {
 
 	//Ancillary methods
 
+	public Collection<Manager> managerWithAboveAverageServices() {
+		return this.managerRepository.managerWithAboveAverageServices();
+	}
+
+	public Manager managerWithMoreServiceCancelled() {
+		final Manager m = this.managerRepository.managerWithMoreServiceCancelled().get(0);
+		return m;
+	}
+
 }
