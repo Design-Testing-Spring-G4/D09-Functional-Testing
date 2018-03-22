@@ -78,18 +78,38 @@ public class RequestServiceTest extends AbstractTest {
 	public void Driver() {
 
 		final Object testingData[][] = {
-					
-			//Test #01: . Expected true.
-			{, null},
-				
-			//Test #02: . Expected false.
-			{, IllegalArgumentException.class},
-				
-			//Test #03: . Expected false.
-			{, IllegalArgumentException.class}
+			//String username, String comments, String comments2, Class<?> expected		
+			//Test #01: Correct execution of test. Expected true.
+			{
+				"user1", "This is a test", "This is a test", null
+			}
+
+		//			//Test #02: Correct update of comments. Expected true.
+		//			{
+		//				"user1", "This is a test", "This is a update test", null
+		//			},
+		//
+		//			//Test #03: Attempt to execute the test by anonymous user. Expected false.
+		//			{
+		//				null, "This is a test", "This is a test", IllegalArgumentException.class
+		//			},
+		//
+		//			//Test #04: Attempt to execute the test by unauthorized user. Expected false.
+		//			{
+		//				"manager1", "This is a test", "This is a test", IllegalArgumentException.class
+		//			}
+
+		//			//Test #05: Attempt to create a request with a invalid credit card. Expected false.
+		//			{"user1", "This is a test", "This is a test", IllegalArgumentException.class},
+		//			//Test #04: Attempt to execute the test by unauthorized user. Expected false.
+		//			{"user1", "This is a test", "This is a test", IllegalArgumentException.class},
+		//			//Test #04: Attempt to execute the test by unauthorized user. Expected false.
+		//			{"user1", "This is a test", "This is a test", IllegalArgumentException.class},
+		//			//Test #04: Attempt to execute the test by unauthorized user. Expected false.
+		//			{"user1", "This is a test", "This is a test", IllegalArgumentException.class},
 
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.Template(() testingData[i][0], (Class<?>) testingData[i][]);
+			this.Template((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
 	}
 }

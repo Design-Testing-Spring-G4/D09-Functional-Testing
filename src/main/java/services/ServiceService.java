@@ -99,10 +99,6 @@ public class ServiceService {
 		return this.serviceRepository.bestSellingServices();
 	}
 
-	public Double ratioTripsCancelled() {
-		return this.serviceRepository.ratioTripsCancelled();
-	}
-
 	public List<domain.Service> topSellingServices(final int t) {
 		final Pageable topX = new PageRequest(0, t);
 		return this.serviceRepository.topSellingServices(topX);
