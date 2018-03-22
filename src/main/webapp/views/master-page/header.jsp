@@ -27,7 +27,15 @@
 			<li><a class="fNiv" href="security/login.do"><spring:message
 						code="master.page.login" /></a></li>
 			<li><a class="fNiv" href="user/create.do"><spring:message
-						code="master.page.register" /></a></li>
+						code="master.page.register" /></a>
+<ul>
+					<li class="arrow"></li>
+					<li><a href="user/create.do"><spring:message
+								code="master.page.register.user" /></a></li>
+					<li><a href="manager/create.do"><spring:message
+								code="master.page.register.manager" /></a>
+					<li>
+				</ul></li>
 		</security:authorize>
 
 
@@ -45,6 +53,10 @@
 									code="master.page.user.rendezvousList" /></a></li>
 						<li><a href="announcement/user/list.do"><spring:message
 									code="master.page.user.announcementList" /></a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('MANAGER')">
+						<li><a href="service/manager/list.do"><spring:message
+							code="master.page.user.myServicesList" /></a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('ADMIN')">
@@ -72,6 +84,10 @@
 		</security:authorize>
 
 	</ul>
+	<security:authorize access="isAuthenticated()">
+		<li><a class="fNiv" href="service/actor/list.do"><spring:message
+						code="master.page.serviceList" /></a></li>	
+		</security:authorize>
 	<a href="?language=en">en</a> | <a href="?language=es">es</a>
 </div>
 <div>
