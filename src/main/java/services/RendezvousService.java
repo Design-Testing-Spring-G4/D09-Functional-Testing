@@ -197,4 +197,12 @@ public class RendezvousService {
 		return this.rendezvousRepository.avgStddevQuestionsPerRendezvous();
 	}
 
+	public Double[] avgMinMaxStddevRequestsPerRendezvous() {
+		return this.rendezvousRepository.avgMinMaxStddevRequestsPerRendezvous();
+	}
+
+	public Double avgCategoriesPerRendezvous() {
+		return this.rendezvousRepository.avgCategoriesPerRendezvous();
+	}
+
 }

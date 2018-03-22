@@ -3,8 +3,11 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -85,6 +88,19 @@ public class ServiceService {
 		for (final domain.Service s : manager.getServices())
 			services.add(s);
 		return services;
+	}
+
+	public Collection<domain.Service> bestSellingServices() {
+		return this.serviceRepository.bestSellingServices();
+	}
+
+	public Double ratioTripsCancelled() {
+		return this.serviceRepository.ratioTripsCancelled();
+	}
+
+	public List<domain.Service> topSellingServices(final int t) {
+		final Pageable topX = new PageRequest(0, t);
+		return this.serviceRepository.topSellingServices(topX);
 	}
 
 }
