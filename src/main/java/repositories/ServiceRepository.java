@@ -18,9 +18,6 @@ public interface ServiceRepository extends JpaRepository<Service, Integer> {
 	@Query("select s from Service s where s.requests.size=(select max(s.requests.size) from Service s)")
 	Collection<Service> bestSellingServices();
 
-	@Query("select (select count(s) from Service s where s.category != null)*1.0/count(t) from Trip t")
-	Double ratioTripsCancelled();
-
 	//The top-selling services.
 	@Query("select s from Service s order by s.requests.size desc")
 	List<Service> topSellingServices(Pageable pageable);
